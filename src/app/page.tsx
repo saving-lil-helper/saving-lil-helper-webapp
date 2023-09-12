@@ -1,5 +1,14 @@
-import { Box } from '@mui/material';
+'use client'
+
+import { Button } from '@/components/ui/button'
+import { useTheme } from 'next-themes'
 
 export default function Home() {
-  return <Box sx={{ display: 'flex' }}></Box>;
+  const { setTheme } = useTheme()
+
+  return (
+    <div>
+      <Button onClick={() => setTheme('light')}>Click me</Button>
+    </div>
+  )
 }
