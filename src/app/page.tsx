@@ -1,14 +1,17 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { useTheme } from 'next-themes'
+import { FixSavingForm } from '@/components/form/fix-saving-form'
+import { FixSavingResultTable } from '@/components/table/fix-saving-form-result-table'
 
 export default function Home() {
-  const { setTheme } = useTheme()
-
   return (
-    <div>
-      <Button onClick={() => setTheme('light')}>Click me</Button>
+    <div className='flex h-full w-full flex-col items-center p-5 lg:flex-row lg:items-start'>
+      <div className={'w-full lg:w-1/3'}>
+        <FixSavingForm />
+      </div>
+      <div className={'w-full lg:w-2/3 lg:pl-16'}>
+        <FixSavingResultTable />
+      </div>
     </div>
   )
 }
