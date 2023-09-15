@@ -21,7 +21,11 @@ const columns: ColumnDef<FixSavingType>[] = [
   {
     header: '利息(元)',
     accessorKey: 'interest',
-    cell: ({ getValue }) => cellFormatter.moneyFormat(getValue()),
+    cell: ({ getValue }) => (
+      <span className={'text-green-700'}>
+        {`+${cellFormatter.moneyFormat(getValue())}`}
+      </span>
+    ),
   },
   {
     header: '本息總和(元)',
@@ -32,10 +36,6 @@ const columns: ColumnDef<FixSavingType>[] = [
 
 export function FixSavingResultTable() {
   const { fixSavingResults } = useFixSavingForm()
-
-  useEffect(() => {
-    console.log(fixSavingResults)
-  }, [fixSavingResults])
 
   return (
     <div className='mt-5 w-full lg:mx-auto lg:mt-0 '>

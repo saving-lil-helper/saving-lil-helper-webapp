@@ -62,8 +62,9 @@ export function FixSavingForm() {
               <FormControl>
                 <Input
                   className={'text-md'}
-                  type={'text'}
+                  type='number'
                   placeholder='0'
+                  inputMode={'decimal'}
                   {...field}
                 />
               </FormControl>
@@ -81,8 +82,9 @@ export function FixSavingForm() {
               <FormControl>
                 <Input
                   className={'text-md'}
-                  type={'text'}
+                  type='number'
                   placeholder='0'
+                  inputMode={'decimal'}
                   {...field}
                 />
               </FormControl>
