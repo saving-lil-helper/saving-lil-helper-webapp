@@ -3,7 +3,10 @@ import type { Metadata } from 'next'
 import { ThemeProvider } from '@/components/theme-provider'
 import HeaderMenu from '@/components/layouts/header-menu'
 export const metadata: Metadata = {
-  title: 'Saving Lil-Helper',
+  title: {
+    default: '儲蓄小助手',
+    template: '%s | 儲蓄小助手',
+  },
   description: 'A web app to help you save money',
 }
 

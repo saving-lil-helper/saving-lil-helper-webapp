@@ -1,7 +1,7 @@
 import bigNumber from 'bignumber.js'
 
 // 定義一個函數來計算到期實收利息
-export function calculateFixSavingAccruedInterest(
+export function calculateTimeDepositAccruedInterest(
   principal: string,
   interestRateWithPercent: string,
   months: number

@@ -14,9 +14,9 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { useFixSavingForm } from '@/stores/fix-saving-atom'
+import { useTimeDepositForm } from '@/stores/time-deposit-atom'
 
-const fixSavingFormSchema = z.object({
+const timeDepositFormSchema = z.object({
   principal: z.string().min(5, { message: '本金必須大於10000' }), // 本金
   rate: z.string().min(1, { message: '年利率必須大於1' }), // 年利率
   // term: z.number(), // 存款期
@@ -28,22 +28,22 @@ const defaultFormValues = {
   // term: 0,
 }
 
-type FixSavingFormType = z.infer<typeof fixSavingFormSchema>
-export function FixSavingForm() {
-  const form = useForm<FixSavingFormType>({
-    resolver: zodResolver(fixSavingFormSchema),
+type TimeDepositFormType = z.infer<typeof timeDepositFormSchema>
+export function TimeDepositForm() {
+  const form = useForm<TimeDepositFormType>({
+    resolver: zodResolver(timeDepositFormSchema),
     defaultValues: defaultFormValues,
   })
 
-  const { setFixSavingForm } = useFixSavingForm()
+  const { setTimeDepositForm } = useTimeDepositForm()
 
-  function onSubmit(data: FixSavingFormType) {
-    setFixSavingForm(form.getValues())
+  function onSubmit(data: TimeDepositFormType) {
+    setTimeDepositForm(form.getValues())
   }
 
   function onReset() {
     form.reset(defaultFormValues)
-    setFixSavingForm(defaultFormValues)
+    setTimeDepositForm(defaultFormValues)
   }
 
   return (

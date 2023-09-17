@@ -13,6 +13,18 @@ import {
 } from '@/components/ui/navigation-menu'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 
+const navList = [
+  {
+    name: '定期存款',
+    href: '/',
+  },
+  {
+    name: '活期存款',
+    href: '/demand-deposit',
+    subMenu: [],
+  },
+]
+
 export default function HeaderMenu() {
   return (
     <header
@@ -23,13 +35,19 @@ export default function HeaderMenu() {
       <div className={'container flex h-14 items-center'}>
         <NavigationMenu>
           <NavigationMenuList>
-            <NavigationMenuItem>
-              <Link href='/' legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Fix Saving
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
+            {navList.map((navItem, navIdx) => {
+              return (
+                <NavigationMenuItem key={navIdx}>
+                  <Link href={navItem.href} legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={navigationMenuTriggerStyle()}
+                    >
+                      {navItem.name}
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              )
+            })}
           </NavigationMenuList>
         </NavigationMenu>
       </div>

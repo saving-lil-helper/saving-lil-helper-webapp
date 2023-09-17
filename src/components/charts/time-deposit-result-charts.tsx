@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,7 +12,7 @@ import {
 } from 'chart.js'
 
 import { Line } from 'react-chartjs-2'
-import { useFixSavingForm } from '@/stores/fix-saving-atom'
+import { useTimeDepositForm } from '@/stores/time-deposit-atom'
 import { useMemo } from 'react'
 
 ChartJS.register(
@@ -37,8 +39,8 @@ export const options = {
 }
 
 const labels = ['一個月', '三個月', '六個月', '一年']
-export default function FixSavingResultCharts() {
-  const { fixSavingResults } = useFixSavingForm()
+export default function TimeDepositResultCharts() {
+  const { timeDepositResults } = useTimeDepositForm()
 
   const data = useMemo(() => {
     return {
@@ -48,11 +50,11 @@ export default function FixSavingResultCharts() {
           label: '本息總和',
           borderColor: 'rgb(53, 162, 235)',
           backgroundColor: 'rgba(53, 162, 235, 0.5)',
-          data: fixSavingResults.map((item) => item['p&i']),
+          data: timeDepositResults.map((item) => item['p&i']),
         },
       ],
     }
-  }, [fixSavingResults])
+  }, [timeDepositResults])
 
   return <Line className={'mt-5'} options={options} data={data} />
 }
