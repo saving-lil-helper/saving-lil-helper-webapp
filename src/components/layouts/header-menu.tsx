@@ -4,12 +4,10 @@ import Link from 'next/link'
 import {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from '@/components/ui/navigation-menu'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import React from 'react'
@@ -18,7 +16,7 @@ import { cn } from '@/lib/utils'
 const navList = [
   {
     title: '定期存款',
-    href: '/',
+    href: '/time-deposit',
   },
   {
     title: '活期存款',
@@ -29,7 +27,11 @@ const navList = [
         href: '/demand-deposit/sc',
         description: '活期存款預測表',
       },
-      {},
+      {
+        title: '信銀國際inMotion大富翁存款',
+        href: '/demand-deposit/inmotion',
+        description: '活期存款預測表',
+      },
     ],
   },
 ]
@@ -41,7 +43,15 @@ export default function HeaderMenu() {
         'supports-backdrop-blur:bg-background/60 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur'
       }
     >
-      <div className={'container flex h-14 items-center'}>
+      <div className={'container flex h-14 items-center '}>
+        <div className='mr-10'>
+          <Link
+            className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-2xl font-bold text-transparent'
+            href={'/'}
+          >
+            {process.env.NEXT_PUBLIC_APP_NAME}
+          </Link>
+        </div>
         <NavigationMenu>
           <NavigationMenuList>
             {navList.map((navItem, navIdx) => {
