@@ -59,7 +59,7 @@ export default function HeaderMenu() {
                 <NavigationMenuItem key={navIdx}>
                   {navItem.subMenu ? (
                     <>
-                      <NavigationMenuTrigger>
+                      <NavigationMenuTrigger className='text-md font-bold'>
                         {navItem.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
@@ -79,7 +79,11 @@ export default function HeaderMenu() {
                   ) : (
                     <Link href={navItem.href} legacyBehavior passHref>
                       <NavigationMenuLink
-                        className={navigationMenuTriggerStyle()}
+                        className={cn(
+                          navigationMenuTriggerStyle({
+                            className: 'text-md font-bold',
+                          })
+                        )}
                       >
                         {navItem.title}
                       </NavigationMenuLink>
@@ -110,7 +114,7 @@ const ListItem = React.forwardRef<
           )}
           {...props}
         >
-          <div className='text-sm font-medium leading-none'>{title}</div>
+          <div className='text-md font-semibold leading-none'>{title}</div>
           <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
             {children}
           </p>
