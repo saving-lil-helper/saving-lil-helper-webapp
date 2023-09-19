@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { DatePicker } from '@/components/ui/date-picker'
+import { useDemandDepositScForm } from '@/stores/demand-deposit-sc-atom'
 
 const demandDepositScFormSchema = z.object({
   principal: z.string().min(5, { message: '本金必須大於10000' }), // 本金
@@ -33,14 +34,16 @@ export default function DemandDepositFormSc() {
     defaultValues: defaultFormValues,
   })
 
+  const { setDemandDepositScForm } = useDemandDepositScForm()
+
   function onSubmit(data: DemandDepositScFormType) {
     // setTimeDepositForm(form.getValues())
-    console.log(data)
+    setDemandDepositScForm(data)
   }
 
   function onReset() {
     form.reset(defaultFormValues)
-    // setTimeDepositForm(defaultFormValues)
+    setDemandDepositScForm(defaultFormValues)
   }
 
   return (

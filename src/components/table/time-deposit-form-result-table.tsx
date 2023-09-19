@@ -38,7 +38,7 @@ export function TimeDepositResultTable() {
   const { timeDepositResults } = useTimeDepositForm()
 
   return (
-    <div className='mt-5 w-full lg:mx-auto lg:mt-0 '>
+    <div className='mt-5 w-full lg:mx-auto lg:mt-0'>
       <DataTable columns={columns} data={timeDepositResults}></DataTable>
     </div>
   )
