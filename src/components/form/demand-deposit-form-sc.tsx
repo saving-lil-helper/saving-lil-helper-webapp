@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { DatePicker } from '../ui/date-picker'
+import { DatePicker } from '@/components/ui/date-picker'
 
 const demandDepositScFormSchema = z.object({
   principal: z.string().min(5, { message: '本金必須大於10000' }), // 本金
@@ -35,6 +35,7 @@ export default function DemandDepositFormSc() {
 
   function onSubmit(data: DemandDepositScFormType) {
     // setTimeDepositForm(form.getValues())
+    console.log(data)
   }
 
   function onReset() {

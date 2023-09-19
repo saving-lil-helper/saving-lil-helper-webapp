@@ -20,6 +20,7 @@ const terms = [
     month: 12,
   },
 ]
+
 export const timeDepositFormAtom = atom({ principal: '', rate: '' })
 export const timeDepositResultsAtom = atom((get) => {
   const timeDepositForm = get(timeDepositFormAtom)
