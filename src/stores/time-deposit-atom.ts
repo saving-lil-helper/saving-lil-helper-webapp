@@ -1,5 +1,5 @@
 import { atom, useAtom } from 'jotai'
-import { calculateTimeDepositAccruedInterest } from '@/lib/saving-calculation'
+import { calculateAccruedInterestByMonth } from '@/lib/saving-calculation'
 import bigNumber from 'bignumber.js'
 
 const terms = [
@@ -26,7 +26,7 @@ export const timeDepositResultsAtom = atom((get) => {
   const timeDepositForm = get(timeDepositFormAtom)
 
   return terms.map((term, idx) => {
-    const interest = calculateTimeDepositAccruedInterest(
+    const interest = calculateAccruedInterestByMonth(
       timeDepositForm.principal,
       timeDepositForm.rate,
       term.month
