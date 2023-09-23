@@ -2,11 +2,12 @@ import {
   differenceInCalendarDays,
   eachDayOfInterval,
   format,
+  isLeapYear,
   set,
 } from 'date-fns'
 import { atom, useAtom } from 'jotai'
 import scRateData from '@/app/data/sc-rate.json'
-import { calculateAccruedInterestByDays } from '@/lib/saving-calculation'
+import { calculateMsaInterestByDays } from '@/lib/saving-calculation'
 import bigNumber from 'bignumber.js'
 
 export type GetScRateListParams = {
@@ -18,6 +19,7 @@ export type DemandDepositScColumn = {
   date: string
   interest: number
   'p&i': number
+  accInterest: number
 }
 
 type Promotion =
@@ -41,12 +43,15 @@ type Promotion =
         }
         rate: number
         data?: DemandDepositScColumn[]
+        phaseAccInterest?: number | string
       }[]
     }
   | undefined
 
 type DemandDepositResultType = {
-  accInterest: number
+  totalAccInterest: number
+  totalDays: number
+  totalAccPrincipal: number
 }
 
 export const demandDepositScFormAtom = atom({
@@ -60,14 +65,15 @@ export const demandDepositScResultsAtom = atom<
   const principal = get(demandDepositScFormAtom).principal
   const year = get(demandDepositScFormAtom).start_date.getFullYear()
   const month = get(demandDepositScFormAtom).start_date.getMonth() + 1
-  const day = get(demandDepositScFormAtom).start_date.getDate()
 
   let scRateListRecord = scRateData.data.find(
     (item) =>
       item.promotion_date.year === year && item.promotion_date.month === month
   ) as Promotion
 
-  let accInterest = 0
+  let totalAccPrincipal = bigNumber(principal).toNumber()
+  let totalAccInterest = 0
+  let totalDays = 0
 
   scRateListRecord = {
     ...scRateListRecord,
@@ -92,28 +98,34 @@ export const demandDepositScResultsAtom = atom<
         end: endDate,
       })
 
-      console.log('phase', phase)
+      let phaseAccInterest: string | number = 0
+
+      totalDays += eachDays.length
 
       const data = eachDays.map((date, dIdx) => {
-        const interest = calculateAccruedInterestByDays(
-          principal,
-          phase.rate,
-          differenceInCalendarDays(date, startDate) + 1
-        )
+        const eachDayInterest = bigNumber(
+          calculateMsaInterestByDays(
+            totalAccPrincipal,
+            phase.rate,
+            isLeapYear(date)
+          )
+        ).toFixed(6)
 
-        const pNi = bigNumber(principal)
-          .plus(interest)
-          .plus(accInterest)
+        totalAccInterest =
+          bigNumber(totalAccInterest).plus(eachDayInterest).toNumber() || 0
+
+        phaseAccInterest =
+          bigNumber(phaseAccInterest).plus(eachDayInterest).toNumber() || 0
+
+        totalAccPrincipal = bigNumber(totalAccPrincipal)
+          .plus(eachDayInterest)
           .toNumber()
-
-        if (dIdx === eachDays.length - 1) {
-          accInterest = bigNumber(accInterest).plus(interest).toNumber() || 0
-        }
 
         return {
           date: format(date, 'yyyy-MM-dd'),
-          interest,
-          'p&i': pNi,
+          interest: bigNumber(eachDayInterest).toNumber(),
+          'p&i': totalAccPrincipal,
+          accInterest: phaseAccInterest,
         }
       })
 
@@ -128,14 +140,16 @@ export const demandDepositScResultsAtom = atom<
           formatted: format(endDate, 'yyyy-MM-dd'),
         },
         data,
-        accInterest,
+        phaseAccInterest,
       }
     }),
   }
 
   return {
     ...scRateListRecord,
-    accInterest,
+    totalAccInterest,
+    totalDays,
+    totalAccPrincipal,
   }
 })
 

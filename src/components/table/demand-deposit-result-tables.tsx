@@ -9,7 +9,6 @@ import {
   useDemandDepositScForm,
 } from '@/stores/demand-deposit-sc-atom'
 import { ColumnDef } from '@tanstack/react-table'
-import { differenceInCalendarDays, format } from 'date-fns'
 import bigNumber from 'bignumber.js'
 
 const columns: ColumnDef<DemandDepositScColumn>[] = [
@@ -20,6 +19,15 @@ const columns: ColumnDef<DemandDepositScColumn>[] = [
   {
     header: '利息(元)',
     accessorKey: 'interest',
+    cell: ({ getValue }) => (
+      <span className={'text-green-700'}>
+        {`+${cellFormatter.moneyFormat(getValue())}`}
+      </span>
+    ),
+  },
+  {
+    header: '累積利息(元)',
+    accessorKey: 'accInterest',
     cell: ({ getValue }) => (
       <span className={'text-green-700'}>
         {`+${cellFormatter.moneyFormat(getValue())}`}
@@ -57,16 +65,19 @@ export function DemandDepositScResultTables() {
         <div className='text- text-lg font-semibold text-sky-700'>
           <span>總利息(元): </span>
           <span>
-            {bigNumber(demandDepositScResults.accInterest).toFormat(3)}
+            {bigNumber(demandDepositScResults.totalAccInterest).toFormat(3)}
           </span>
         </div>
         <div className='text- text-lg font-semibold text-sky-700'>
           <span>總本息綜和(元): </span>
           <span>
-            {bigNumber(demandDepositScForm.principal || 0)
-              .plus(demandDepositScResults.accInterest)
-              .toFormat(3) || 0}
+            {bigNumber(demandDepositScResults.totalAccPrincipal).toFormat(3) ||
+              0}
           </span>
+        </div>
+        <div className='text- text-lg font-semibold text-sky-700'>
+          <span>總日數: </span>
+          <span>{demandDepositScResults.totalDays}</span>
         </div>
       </div>
       <Tabs defaultValue={phaseNumbers[0]} className='flex w-full flex-col'>
@@ -86,10 +97,15 @@ export function DemandDepositScResultTables() {
               }%)`}</Badge>
               <Badge className='text-md font-semibold'>{`${
                 phase.start_date.formatted
-              } ~ ${phase.end_date.formatted} (${differenceInCalendarDays(
-                new Date(phase.end_date.formatted as string),
-                new Date(phase.start_date.formatted as string)
-              )}日)`}</Badge>
+              } ~ ${phase.end_date.formatted} (${
+                phase?.data?.length || 0
+              }日)`}</Badge>
+              <Badge
+                className='text-md font-semibold'
+                color='cyan'
+              >{`此階段利息 (${bigNumber(phase?.phaseAccInterest || 0).toFormat(
+                3
+              )}元)`}</Badge>
             </div>
             <div className='mt-2 h-[420px]'>
               <DataTable columns={columns} data={phase?.data || []} />

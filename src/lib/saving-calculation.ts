@@ -14,16 +14,18 @@ export function calculateAccruedInterestByMonth(
   )
 }
 
-export function calculateAccruedInterestByDays(
+export function calculateMsaInterestByDays(
   principal: string | number,
-  interestRateWithPercent: string | number,
-  days: number,
+  msaRate: string | number,
   isLeapYear?: boolean
 ): number {
-  const yearFraction = bigNumber(days).div(isLeapYear ? 366 : 365)
-  const interestRate = bigNumber(interestRateWithPercent).div(100)
-
-  return (
-    bigNumber(principal).times(yearFraction).times(interestRate).toNumber() || 0
+  return bigNumber(
+    bigNumber(principal)
+      .div(100)
+      .times(msaRate)
+      .div(isLeapYear ? 366 : 365)
+      .times(1000000)
   )
+    .div(1000000)
+    .toNumber()
 }
