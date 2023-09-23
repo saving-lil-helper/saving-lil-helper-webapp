@@ -1,6 +1,7 @@
 'use client'
 
 import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 import { DataTable } from '@/components/ui/data-table'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { cellFormatter } from '@/lib/utils'
@@ -17,7 +18,7 @@ const columns: ColumnDef<DemandDepositScColumn>[] = [
     accessorKey: 'date',
   },
   {
-    header: '利息(元)',
+    header: '日利息(元)',
     accessorKey: 'interest',
     cell: ({ getValue }) => (
       <span className={'text-green-700'}>
@@ -61,7 +62,7 @@ export function DemandDepositScResultTables() {
 
   return (
     <div className='mt-5 w-full space-y-6 lg:mx-auto lg:mt-0'>
-      <div className='flex-col'>
+      <div className='flex-col rounded-lg border p-2'>
         <div className='text- text-lg font-semibold text-sky-700'>
           <span>總利息(元): </span>
           <span>
@@ -92,22 +93,30 @@ export function DemandDepositScResultTables() {
         </TabsList>
         {phases.map((phase, index) => (
           <TabsContent key={index} value={phaseNumbers[index]}>
-            <div className='my-2 space-x-3'>
-              <Badge className='text-md font-semibold' color='cyan'>{`年利率 (${
-                phase?.rate || 0
-              }%)`}</Badge>
-              <Badge className='text-md font-semibold'>{`${
-                phase.start_date.formatted
-              } ~ ${phase.end_date.formatted} (${
-                phase?.data?.length || 0
-              }日)`}</Badge>
-              <Badge
-                className='text-md font-semibold'
-                color='cyan'
-              >{`此階段利息 (${bigNumber(phase?.phaseAccInterest || 0).toFormat(
-                3
-              )}元)`}</Badge>
-            </div>
+            <Card className='my-2'>
+              <CardContent className='p-2'>
+                <div className='flex space-x-1 p-1'>
+                  <p className='text-sm text-muted-foreground'>年利率:</p>
+                  <p className='text-sm font-medium'>
+                    {` ${phase?.rate || 0}%`}
+                  </p>
+                </div>
+                <div className='flex space-x-1 p-1'>
+                  <p className='text-sm text-muted-foreground'>階段日期:</p>
+                  <p className='text-sm font-medium'>
+                    {`${phase.start_date.formatted} ~ ${
+                      phase.end_date.formatted
+                    } (${phase?.data?.length || 0}日)`}
+                  </p>
+                </div>
+                <div className='flex space-x-1 p-1'>
+                  <p className='text-sm text-muted-foreground'>此階段利息:</p>
+                  <p className='text-sm font-medium'>
+                    {`${bigNumber(phase?.phaseAccInterest || 0).toFormat(3)}元`}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
             <div className='mt-2 h-[420px]'>
               <DataTable columns={columns} data={phase?.data || []} />
             </div>

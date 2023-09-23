@@ -44,9 +44,9 @@ export default function HeaderMenu() {
       }
     >
       <div className={'container flex h-14 items-center '}>
-        <div className='mr-10'>
+        <div className='mr-10 min-w-[135px]'>
           <Link
-            className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-2xl font-bold text-transparent'
+            className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-xl font-bold text-transparent lg:text-2xl'
             href={'/'}
           >
             {process.env.NEXT_PUBLIC_APP_NAME}
@@ -63,7 +63,7 @@ export default function HeaderMenu() {
                         {navItem.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
+                        <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
                           {navItem.subMenu.map((component, cIdx) => (
                             <ListItem
                               key={cIdx}
