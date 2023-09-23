@@ -71,8 +71,9 @@ export function DemandDepositScResultTables() {
         <div className='text- text-lg font-semibold text-sky-700'>
           <span>總本息綜和(元): </span>
           <span>
-            {bigNumber(demandDepositScResults.totalAccPrincipal).toFormat(3) ||
-              0}
+            {bigNumber(demandDepositScResults.totalAccPrincipal || 0).toFormat(
+              3
+            ) || 0}
           </span>
         </div>
         <div className='text- text-lg font-semibold text-sky-700'>
