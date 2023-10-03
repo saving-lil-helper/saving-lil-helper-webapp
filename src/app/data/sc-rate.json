@@ -46,6 +46,53 @@
           "rate": 6
         }
       ]
+    },
+    {
+      "promotion_date": {
+        "month": 10,
+        "year": 2023
+      },
+      "phases": [
+        {
+          "start_date": {
+            "day": 1,
+            "month": 10,
+            "year": 2023
+          },
+          "end_date": {
+            "day": 30,
+            "month": 11,
+            "year": 2023
+          },
+          "rate": 3
+        },
+        {
+          "start_date": {
+            "day": 1,
+            "month": 12,
+            "year": 2023
+          },
+          "end_date": {
+            "day": 1,
+            "month": 1,
+            "year": 2024
+          },
+          "rate": 5.5
+        },
+        {
+          "start_date": {
+            "day": 2,
+            "month": 1,
+            "year": 2024
+          },
+          "end_date": {
+            "day": 31,
+            "month": 1,
+            "year": 2024
+          },
+          "rate": 6
+        }
+      ]
     }
   ]
 }
