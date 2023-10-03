@@ -34,7 +34,7 @@ export default function DemandDepositFormSc() {
     defaultValues: defaultFormValues,
   })
 
-  const { setDemandDepositScForm } = useDemandDepositScForm()
+  const { setDemandDepositScForm, availableDates } = useDemandDepositScForm()
 
   function onSubmit(data: DemandDepositScFormType) {
     // setTimeDepositForm(form.getValues())
@@ -80,9 +80,15 @@ export default function DemandDepositFormSc() {
             <FormItem>
               <FormLabel className={'text-lg'}>存款開始日期</FormLabel>
               <FormControl>
-                <DatePicker className={'text-md'} placeholder='0' {...field} />
+                <DatePicker
+                  className={'text-md'}
+                  placeholder='0'
+                  {...field}
+                  fromYear={availableDates.fromDate.year}
+                  toYear={availableDates.toDate.year}
+                  disabled={availableDates.isMatchDays}
+                />
               </FormControl>
-
               <FormMessage />
             </FormItem>
           )}

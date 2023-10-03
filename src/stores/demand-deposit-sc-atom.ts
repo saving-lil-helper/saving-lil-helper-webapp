@@ -1,14 +1,16 @@
 import {
-  differenceInCalendarDays,
+  isAfter,
   eachDayOfInterval,
   format,
   isLeapYear,
-  set,
+  isBefore,
+  endOfMonth,
 } from 'date-fns'
 import { atom, useAtom } from 'jotai'
 import scRateData from '@/app/data/sc-rate.json'
 import { calculateMsaInterestByDays } from '@/lib/saving-calculation'
 import bigNumber from 'bignumber.js'
+import { Matcher } from 'react-day-picker'
 
 export type GetScRateListParams = {
   principal: string
@@ -22,6 +24,13 @@ export type DemandDepositScColumn = {
   accInterest: number
 }
 
+type DateDefine = {
+  day: number
+  month: number
+  year: number
+  formatted?: string
+}
+
 type Promotion =
   | {
       promotion_date?: {
@@ -29,18 +38,8 @@ type Promotion =
         year: number
       }
       phases?: {
-        start_date: {
-          day: number
-          month: number
-          year: number
-          formatted?: string
-        }
-        end_date: {
-          day: number
-          month: number
-          year: number
-          formatted?: string
-        }
+        start_date: DateDefine
+        end_date: DateDefine
         rate: number
         data?: DemandDepositScColumn[]
         phaseAccInterest?: number | string
@@ -162,9 +161,40 @@ export const useDemandDepositScForm = () => {
     demandDepositScResultsAtom
   )
 
+  const availableDates: {
+    fromDate: DateDefine
+    toDate: DateDefine
+    isMatchDays: Matcher
+  } = {
+    fromDate: scRateData.data[0].phases[0].start_date,
+    toDate: scRateData.data.slice(-1)[0].phases[0].start_date,
+    isMatchDays: (date) => {
+      const isBeforeStartDate = isBefore(
+        date,
+        new Date(
+          availableDates.fromDate.year,
+          availableDates.fromDate.month - 1,
+          availableDates.fromDate.day
+        )
+      )
+
+      if (isBeforeStartDate) return true
+
+      const isAfterEndDay = isAfter(
+        date,
+        endOfMonth(
+          new Date(availableDates.toDate.year, availableDates.toDate.month - 1)
+        )
+      )
+
+      return isAfterEndDay
+    },
+  }
+
   return {
     demandDepositScForm,
     setDemandDepositScForm,
     demandDepositScResults,
+    availableDates,
   }
 }

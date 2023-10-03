@@ -12,18 +12,31 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { Matcher } from 'react-day-picker'
 
 export type DatePickerProps = {
   className?: string
   value?: Date
   onChange: (...event: any[]) => void
   placeholder?: string
+  fromYear?: number
+  toYear?: number
+  disabled?: Matcher | Matcher[] | undefined
 }
 
 const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
-  ({ value: date, onChange, className, placeholder }: DatePickerProps, ref) => {
-    //   const [date, setDate] = React.useState<Date>()
-
+  (
+    {
+      value: date,
+      onChange,
+      className,
+      placeholder,
+      fromYear = 1960,
+      toYear = 2030,
+      disabled,
+    }: DatePickerProps,
+    ref
+  ) => {
     return (
       <Popover>
         <PopoverTrigger asChild>
@@ -51,9 +64,10 @@ const DatePicker = React.forwardRef<HTMLButtonElement, DatePickerProps>(
             onSelect={onChange}
             initialFocus
             captionLayout='dropdown-buttons'
-            fromYear={1960}
-            toYear={2030}
+            fromYear={fromYear}
+            toYear={toYear}
             className=''
+            disabled={disabled}
           />
         </PopoverContent>
       </Popover>
