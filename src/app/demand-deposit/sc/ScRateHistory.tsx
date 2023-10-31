@@ -10,7 +10,7 @@ export default function ScRateHistory() {
     <div className='mt-6 h-72 w-full rounded-md border p-7'>
       <h2 className='text-3xl font-bold'>已記錄歷史推廣息率</h2>
       <ScrollArea className='mt-5'>
-        {scRateData.data.reverse().map((item, index) => (
+        {scRateData.data.toReversed().map((item, index) => (
           <>
             <div key={index} className='flex justify-between'>
               <span className='text-md'>
