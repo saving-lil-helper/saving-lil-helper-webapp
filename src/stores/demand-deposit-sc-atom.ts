@@ -78,7 +78,8 @@ export const demandDepositScResultsAtom = atom<
 
   let totalAccPrincipal = bigNumber(principal).toNumber()
   let totalAccInterest = 0
-  let totalDays = 0
+  let daysInNormalYear = 0
+  let daysInLeapYear = 0
 
   const termEndDate = dateDefineToDate(
     scRateListRecord?.phases?.slice(-1)[0].end_date as DateDefine
@@ -111,7 +112,8 @@ export const demandDepositScResultsAtom = atom<
 
       let phaseAccInterest: string | number = 0
 
-      totalDays += eachDays.length
+      daysInNormalYear += eachDays.filter((date) => !isLeapYear(date)).length
+      daysInLeapYear += eachDays.filter((date) => isLeapYear(date)).length
 
       const data = eachDays.map((date) => {
         const eachDayInterest = bigNumber(
@@ -143,7 +145,8 @@ export const demandDepositScResultsAtom = atom<
       actualInterestRate = calcMsaActualInterestRate(
         principal,
         totalAccInterest,
-        totalDays
+        daysInNormalYear,
+        daysInLeapYear
       )
 
       return {
@@ -165,7 +168,7 @@ export const demandDepositScResultsAtom = atom<
   return {
     ...scRateListRecord,
     totalAccInterest,
-    totalDays,
+    totalDays: daysInNormalYear + daysInLeapYear,
     totalAccPrincipal,
     termEndDate,
     actualInterestRate,

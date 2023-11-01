@@ -1,5 +1,4 @@
 import bigNumber from 'bignumber.js'
-import isLeapYear from 'date-fns/isLeapYear'
 
 // 定義一個函數來計算到期實收利息
 export function calculateAccruedInterestByMonth(
@@ -29,12 +28,20 @@ export function calculateMsaInterestByDays(
 
 export function calcMsaActualInterestRate(
   principal: string | number,
-  accInterest: string | number,
-  totalDays: number
+  actualIncome: string | number,
+  daysInNormalYear: number,
+  daysInLeapYear: number
 ): number {
-  return bigNumber(bigNumber(accInterest).div(principal))
-    .multipliedBy(isLeapYear(new Date()) ? 366 : 365)
-    .div(totalDays)
-    .multipliedBy(100)
-    .toNumber()
+  // actualIncome / (principal * (daysInCommonYear / 365 + daysInLeapYear / 366))
+
+  const daysInNormalYearBigNo = bigNumber(daysInNormalYear)
+  const daysInLeapYearBigNo = bigNumber(daysInLeapYear)
+  const daysPercentage = bigNumber(daysInNormalYearBigNo.div(365)).plus(
+    daysInLeapYearBigNo.div(366)
+  )
+
+  const numerator = bigNumber(actualIncome)
+  const denominator = bigNumber(principal).times(daysPercentage)
+
+  return numerator.div(denominator).times(100).toNumber()
 }
