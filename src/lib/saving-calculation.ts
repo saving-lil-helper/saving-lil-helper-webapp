@@ -27,7 +27,7 @@ export function calculateMsaInterestByDays(
     .toNumber()
 }
 
-export function calculateAvgInterestRate(
+export function calcMsaActualInterestRate(
   principal: string | number,
   accInterest: string | number,
   totalDays: number

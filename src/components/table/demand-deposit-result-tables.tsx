@@ -1,6 +1,5 @@
 'use client'
 
-import { Badge } from '@/components/ui/badge'
 import { Card, CardContent } from '@/components/ui/card'
 import { DataTable } from '@/components/ui/data-table'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
@@ -57,8 +56,7 @@ const phaseNumbers = [
 ]
 
 export function DemandDepositScResultTables() {
-  const { demandDepositScResults, demandDepositScForm } =
-    useDemandDepositScForm()
+  const { demandDepositScResults } = useDemandDepositScForm()
   const phases = demandDepositScResults?.phases || []
 
   return (
@@ -79,11 +77,10 @@ export function DemandDepositScResultTables() {
           </span>
         </div>
         <div className='text- text-lg font-semibold text-sky-700'>
-          <span>年利率: </span>
+          <span>實際年利率: </span>
           <span>
-            ~{' '}
-            {bigNumber(demandDepositScResults.avgInterestRate || 0).toFormat(
-              1
+            {bigNumber(demandDepositScResults.actualInterestRate || 0).toFormat(
+              3
             ) || 0}
             %
           </span>

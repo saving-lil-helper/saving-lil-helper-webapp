@@ -9,7 +9,7 @@ import {
 import { atom, useAtom } from 'jotai'
 import scRateData from '@/app/data/sc-rate.json'
 import {
-  calculateAvgInterestRate,
+  calcMsaActualInterestRate,
   calculateMsaInterestByDays,
 } from '@/lib/saving-calculation'
 import bigNumber from 'bignumber.js'
@@ -56,7 +56,7 @@ type DemandDepositResultType = {
   totalDays: number
   totalAccPrincipal: number
   termEndDate: Date
-  avgInterestRate: number
+  actualInterestRate: number
 }
 
 export const demandDepositScFormAtom = atom({
@@ -84,7 +84,7 @@ export const demandDepositScResultsAtom = atom<
     scRateListRecord?.phases?.slice(-1)[0].end_date as DateDefine
   )
 
-  let avgInterestRate = 0
+  let actualInterestRate = 0
 
   scRateListRecord = {
     ...scRateListRecord,
@@ -113,7 +113,7 @@ export const demandDepositScResultsAtom = atom<
 
       totalDays += eachDays.length
 
-      const data = eachDays.map((date, dIdx) => {
+      const data = eachDays.map((date) => {
         const eachDayInterest = bigNumber(
           calculateMsaInterestByDays(
             totalAccPrincipal,
@@ -140,7 +140,7 @@ export const demandDepositScResultsAtom = atom<
         }
       })
 
-      avgInterestRate = calculateAvgInterestRate(
+      actualInterestRate = calcMsaActualInterestRate(
         principal,
         totalAccInterest,
         totalDays
@@ -168,7 +168,7 @@ export const demandDepositScResultsAtom = atom<
     totalDays,
     totalAccPrincipal,
     termEndDate,
-    avgInterestRate,
+    actualInterestRate,
   }
 })
 
@@ -177,9 +177,7 @@ export const useDemandDepositScForm = () => {
     demandDepositScFormAtom
   )
 
-  const [demandDepositScResults, setDemandDepositScResults] = useAtom(
-    demandDepositScResultsAtom
-  )
+  const [demandDepositScResults] = useAtom(demandDepositScResultsAtom)
 
   const availableDates: {
     fromDate: DateDefine
