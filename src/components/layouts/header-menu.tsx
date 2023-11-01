@@ -13,19 +13,24 @@ import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import React, { useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Menu } from 'lucide-react'
+import { Menu, Sun, Moon } from 'lucide-react'
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import Image from 'next/image'
 import { ScrollArea } from '@radix-ui/react-scroll-area'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { useTheme } from 'next-themes'
 
 const navList = [
   {
@@ -54,6 +59,7 @@ const APP_ICON = '/apple-icon.png'
 
 export default function HeaderMenu() {
   const [open, setOpen] = React.useState(false)
+  const { setTheme } = useTheme()
 
   return (
     <header
@@ -119,10 +125,30 @@ export default function HeaderMenu() {
             })}
           </NavigationMenuList>
         </NavigationMenu>
-        <div className={'flex flex-1 justify-end md:hidden'}>
+        <div className={'flex flex-1 justify-end'}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant='ghost' size='icon'>
+                <Sun className='h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+                <Moon className='absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100' />
+                <span className='sr-only'>Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align='end'>
+              <DropdownMenuItem onClick={() => setTheme('light')}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('dark')}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme('system')}>
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant='ghost' size='icon'>
+              <Button className='md:hidden' variant='ghost' size='icon'>
                 <Menu />
               </Button>
             </SheetTrigger>
