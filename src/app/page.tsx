@@ -8,10 +8,10 @@ import {
 } from '@/components/ui/card'
 import Link from 'next/link'
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME as string
+const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME as string
 
 export const metadata = {
-  title: `主頁 ｜ ${appName}`,
+  title: `主頁 ｜ ${APP_NAME}`,
 }
 
 export default function Home() {

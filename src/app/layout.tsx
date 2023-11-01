@@ -13,33 +13,46 @@ const fontSetting = Noto_Sans({
   display: 'swap',
 })
 
-const appName = process.env.NEXT_PUBLIC_APP_NAME as string
+const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME as string
 
 export const metadata: Metadata = {
   title: {
-    default: appName,
-    template: `%s | ${appName}`,
+    default: APP_NAME,
+    template: `%s | ${APP_NAME}`,
   },
-  description: `${appName} | 定期存款計數機 | 活期存款 | 渣打高息馬拉松`,
+  description: `${APP_NAME} | 定期存款計數機 | 活期存款 | 渣打高息馬拉松`,
   icons: [
     {
       rel: 'icon',
       type: 'image/png',
       sizes: '32x32',
-      url: '/favicon/favicon-32x32.png',
+      url: '/favicons/favicon-32x32.png',
     },
     {
       rel: 'icon',
       type: 'image/png',
       sizes: '16x16',
-      url: '/favicon/favicon-16x16.png',
+      url: '/favicons/favicon-16x16.png',
     },
     {
       rel: 'apple-touch-icon',
       sizes: '180x180',
-      url: '/favicon/apple-touch-icon.png',
+      url: '/favicons/apple-touch-icon.png',
     },
+    { rel: 'apple-touch-icon', url: '/favicons/apple-touch-icon.png' },
+    { rel: 'shortcut icon', url: '/favicon.ico' },
   ],
+  applicationName: APP_NAME,
+  appleWebApp: {
+    capable: true,
+    title: APP_NAME,
+    statusBarStyle: 'default',
+  },
+  themeColor: '#FFFFFF',
+  viewport:
+    'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
+  manifest: '/manifest.json',
+  keywords: ['定期存款計數機', '活期存款', '渣打馬拉松', '渣打高息馬拉松'],
 }
 
 const GA_MEASUREMENT_ID = 'G-KHXXWPHYM5'
