@@ -1,5 +1,5 @@
 import '@/styles/globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { ThemeProvider } from '@/components/theme-provider'
 import HeaderMenu from '@/components/layouts/header-menu'
 import { Noto_Sans } from 'next/font/google'
@@ -18,6 +18,13 @@ const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME as string
 const APP_DEFAULT_TITLE = process.env.NEXT_PUBLIC_APP_NAME as string
 const APP_TITLE_TEMPLATE = `%s | ${APP_NAME}`
 const APP_DESCRIPTION = `${APP_NAME} | 定期存款計數機 | 活期存款 | 渣打高息馬拉松`
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#FFFFFF',
+}
 
 export const metadata: Metadata = {
   title: {
@@ -52,9 +59,6 @@ export const metadata: Metadata = {
     title: APP_DEFAULT_TITLE,
     statusBarStyle: 'default',
   },
-  themeColor: '#FFFFFF',
-  viewport:
-    'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
   manifest: '/manifest.json',
   keywords: ['定期存款計數機', '活期存款', '渣打馬拉松', '渣打高息馬拉松'],
   formatDetection: {
