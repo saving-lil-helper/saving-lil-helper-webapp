@@ -5,6 +5,7 @@ import HeaderMenu from '@/components/layouts/header-menu'
 import { Noto_Sans } from 'next/font/google'
 import Script from 'next/script'
 import Footer from '@/components/layouts/footer'
+import NextProgressBarProvider from '@/components/layouts/next-progress-bar-provider'
 
 const fontSetting = Noto_Sans({
   weight: ['400', '500', '600', '700'],
@@ -98,9 +99,11 @@ export default function RootLayout({
         suppressHydrationWarning={true}
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          <HeaderMenu />
-          <div className='container flex-1'>{children}</div>
-          <Footer />
+          <NextProgressBarProvider>
+            <HeaderMenu />
+            <div className='container flex-1'>{children}</div>
+            <Footer />
+          </NextProgressBarProvider>
         </ThemeProvider>
       </body>
       <Script
