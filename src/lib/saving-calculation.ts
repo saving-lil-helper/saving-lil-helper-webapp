@@ -19,13 +19,9 @@ export function calculateMsaInterestByDays(
   msaRate: string | number,
   isLeapYear?: boolean
 ): number {
-  return bigNumber(
-    bigNumber(principal)
-      .div(100)
-      .times(msaRate)
-      .div(isLeapYear ? 366 : 365)
-      .times(1000000)
-  )
-    .div(1000000)
+  return bigNumber(principal)
+    .div(100)
+    .times(msaRate)
+    .div(isLeapYear ? 366 : 365)
     .toNumber()
 }

@@ -1,16 +1,17 @@
 import {
-  isAfter,
   eachDayOfInterval,
-  format,
-  isLeapYear,
-  isBefore,
   endOfMonth,
+  format,
+  isAfter,
+  isBefore,
+  isLeapYear,
 } from 'date-fns'
 import { atom, useAtom } from 'jotai'
 import scRateData from '@/app/data/sc-rate.json'
 import { calculateMsaInterestByDays } from '@/lib/saving-calculation'
 import bigNumber from 'bignumber.js'
 import { Matcher } from 'react-day-picker'
+import { dateDefineToDate } from '@/lib/utils'
 
 export type GetScRateListParams = {
   principal: string
@@ -51,6 +52,7 @@ type DemandDepositResultType = {
   totalAccInterest: number
   totalDays: number
   totalAccPrincipal: number
+  termEndDate: Date
 }
 
 export const demandDepositScFormAtom = atom({
@@ -73,6 +75,10 @@ export const demandDepositScResultsAtom = atom<
   let totalAccPrincipal = bigNumber(principal).toNumber()
   let totalAccInterest = 0
   let totalDays = 0
+
+  const termEndDate = dateDefineToDate(
+    scRateListRecord?.phases?.slice(-1)[0].end_date as DateDefine
+  )
 
   scRateListRecord = {
     ...scRateListRecord,
@@ -149,6 +155,7 @@ export const demandDepositScResultsAtom = atom<
     totalAccInterest,
     totalDays,
     totalAccPrincipal,
+    termEndDate,
   }
 })
 
@@ -180,14 +187,12 @@ export const useDemandDepositScForm = () => {
 
       if (isBeforeStartDate) return true
 
-      const isAfterEndDay = isAfter(
+      return isAfter(
         date,
         endOfMonth(
           new Date(availableDates.toDate.year, availableDates.toDate.month - 1)
         )
       )
-
-      return isAfterEndDay
     },
   }
 

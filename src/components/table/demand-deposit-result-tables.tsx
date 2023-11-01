@@ -11,6 +11,7 @@ import {
 } from '@/stores/demand-deposit-sc-atom'
 import { ColumnDef } from '@tanstack/react-table'
 import bigNumber from 'bignumber.js'
+import { format } from 'date-fns'
 
 const columns: ColumnDef<DemandDepositScColumn>[] = [
   {
@@ -80,6 +81,12 @@ export function DemandDepositScResultTables() {
         <div className='text- text-lg font-semibold text-sky-700'>
           <span>總日數: </span>
           <span>{demandDepositScResults.totalDays}</span>
+        </div>
+        <div className='text- text-lg font-semibold text-sky-700'>
+          <span>完結日期: </span>
+          <span>
+            {format(demandDepositScResults.termEndDate, 'yyyy-MM-dd')}
+          </span>
         </div>
       </div>
       <Tabs defaultValue={phaseNumbers[0]} className='flex w-full flex-col'>

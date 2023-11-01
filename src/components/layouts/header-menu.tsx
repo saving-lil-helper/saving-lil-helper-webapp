@@ -10,8 +10,22 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import { Menu } from 'lucide-react'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
+import Image from 'next/image'
+import { ScrollArea } from '@radix-ui/react-scroll-area'
 
 const navList = [
   {
@@ -37,22 +51,31 @@ const navList = [
 ]
 
 export default function HeaderMenu() {
+  const [open, setOpen] = React.useState(false)
+
   return (
     <header
       className={
         'supports-backdrop-blur:bg-background/60 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur'
       }
     >
-      <div className={'container flex h-14 items-center '}>
+      <div className={'container flex h-14 items-center'}>
         <div className='mr-10 min-w-[135px]'>
           <Link
-            className='bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-xl font-bold text-transparent lg:text-2xl'
+            className='flex items-center text-xl font-bold lg:text-2xl'
             href={'/'}
           >
+            <Image
+              src='/apple-icon.png'
+              width={32}
+              height={32}
+              className='mr-2'
+              alt='Logo'
+            />{' '}
             {process.env.NEXT_PUBLIC_APP_NAME}
           </Link>
         </div>
-        <NavigationMenu>
+        <NavigationMenu className={'hidden md:flex '}>
           <NavigationMenuList>
             {navList.map((navItem, navIdx) => {
               return (
@@ -94,6 +117,64 @@ export default function HeaderMenu() {
             })}
           </NavigationMenuList>
         </NavigationMenu>
+        <div className={'flex flex-1 justify-end md:hidden'}>
+          <Sheet open={open} onOpenChange={setOpen}>
+            <SheetTrigger asChild>
+              <Button variant='ghost' size='icon'>
+                <Menu />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side={'left'}>
+              <SheetHeader className='mb-6'>
+                <SheetTitle>
+                  <SheetClose asChild>
+                    <Link className='flex items-center' href={'/'}>
+                      <Image
+                        className='mr-2'
+                        src='/favicon-32x32.png'
+                        width={32}
+                        height={32}
+                        alt='App Logo'
+                      />
+                      {process.env.NEXT_PUBLIC_APP_NAME}
+                    </Link>
+                  </SheetClose>
+                </SheetTitle>
+              </SheetHeader>
+              <ScrollArea>
+                <div className='flex flex-col items-start space-y-3'>
+                  {navList.map((navItem, navIdx) => {
+                    return (
+                      <>
+                        {navItem.subMenu ? (
+                          navItem.subMenu.map((subItem, sIdx) => {
+                            return (
+                              <SheetClose key={navIdx} asChild>
+                                <Link
+                                  key={sIdx}
+                                  className='w-full'
+                                  href={subItem.href}
+                                >
+                                  {subItem.title}
+                                </Link>
+                              </SheetClose>
+                            )
+                          })
+                        ) : (
+                          <SheetClose key={navIdx} asChild>
+                            <Link className='w-full' href={navItem.href}>
+                              {navItem.title}
+                            </Link>
+                          </SheetClose>
+                        )}
+                      </>
+                    )
+                  })}
+                </div>
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   )

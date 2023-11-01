@@ -51,7 +51,7 @@ export function TimeDepositForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className='w-full space-y-6 rounded-md border p-7 '
       >
-        <h2 className={'text-3xl font-bold'}>定期存款 </h2>
+        <h2 className={'text-3xl font-bold'}>定期存款</h2>
         <FormField
           control={form.control}
           name='principal'

@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import HeaderMenu from '@/components/layouts/header-menu'
 import { Noto_Sans } from 'next/font/google'
 import Script from 'next/script'
+import Footer from '@/components/layouts/footer'
 
 const fontSetting = Noto_Sans({
   weight: ['400', '500', '600', '700'],
@@ -20,6 +21,25 @@ export const metadata: Metadata = {
     template: `%s | ${appName}`,
   },
   description: `${appName} | 定期存款計數機 | 活期存款 | 渣打高息馬拉松`,
+  icons: [
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      url: '/favicon/favicon-32x32.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      url: '/favicon/favicon-16x16.png',
+    },
+    {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      url: '/favicon/apple-touch-icon.png',
+    },
+  ],
 }
 
 const GA_MEASUREMENT_ID = 'G-KHXXWPHYM5'
@@ -36,12 +56,15 @@ export default function RootLayout({
       suppressHydrationWarning={true}
     >
       <body
-        className={'min-h-screen bg-background antialiased'}
+        className={
+          'flex min-h-screen flex-col overflow-x-hidden bg-background antialiased'
+        }
         suppressHydrationWarning={true}
       >
         <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
           <HeaderMenu />
-          <div className='container'>{children}</div>
+          <div className='container flex-1'>{children}</div>
+          <Footer />
         </ThemeProvider>
       </body>
       <Script

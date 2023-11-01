@@ -22,3 +22,14 @@ export const cellFormatter = {
     })
   },
 }
+
+type DateDefine = {
+  day: number
+  month: number
+  year: number
+  formatted?: string
+}
+
+export const dateDefineToDate = (dateDefine: DateDefine) => {
+  return new Date(dateDefine.year, dateDefine.month - 1, dateDefine.day)
+}
