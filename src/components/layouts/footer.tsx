@@ -11,7 +11,7 @@ export default function Footer() {
           built by{' '}
           <Link
             className={'font-medium underline underline-offset-4'}
-            href={'https://github.com/sinhong2011'}
+            href={'mailto:niskan516.dev@gmail.com'}
             target={'_blank'}
             rel={'noreferrer'}
           >

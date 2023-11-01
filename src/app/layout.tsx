@@ -14,13 +14,16 @@ const fontSetting = Noto_Sans({
 })
 
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME as string
+const APP_DEFAULT_TITLE = process.env.NEXT_PUBLIC_APP_NAME as string
+const APP_TITLE_TEMPLATE = `%s | ${APP_NAME}`
+const APP_DESCRIPTION = `${APP_NAME} | 定期存款計數機 | 活期存款 | 渣打高息馬拉松`
 
 export const metadata: Metadata = {
   title: {
-    default: APP_NAME,
-    template: `%s | ${APP_NAME}`,
+    default: APP_DEFAULT_TITLE,
+    template: APP_TITLE_TEMPLATE,
   },
-  description: `${APP_NAME} | 定期存款計數機 | 活期存款 | 渣打高息馬拉松`,
+  description: APP_DESCRIPTION,
   icons: [
     {
       rel: 'icon',
@@ -45,7 +48,7 @@ export const metadata: Metadata = {
   applicationName: APP_NAME,
   appleWebApp: {
     capable: true,
-    title: APP_NAME,
+    title: APP_DEFAULT_TITLE,
     statusBarStyle: 'default',
   },
   themeColor: '#FFFFFF',
@@ -53,6 +56,26 @@ export const metadata: Metadata = {
     'minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover',
   manifest: '/manifest.json',
   keywords: ['定期存款計數機', '活期存款', '渣打馬拉松', '渣打高息馬拉松'],
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    siteName: APP_NAME,
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
+  twitter: {
+    card: 'summary',
+    title: {
+      default: APP_DEFAULT_TITLE,
+      template: APP_TITLE_TEMPLATE,
+    },
+    description: APP_DESCRIPTION,
+  },
 }
 
 const GA_MEASUREMENT_ID = 'G-KHXXWPHYM5'

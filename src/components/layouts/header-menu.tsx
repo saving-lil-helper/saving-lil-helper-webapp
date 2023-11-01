@@ -50,6 +50,8 @@ const navList = [
   },
 ]
 
+const APP_ICON = '/apple-icon.png'
+
 export default function HeaderMenu() {
   const [open, setOpen] = React.useState(false)
 
@@ -66,7 +68,7 @@ export default function HeaderMenu() {
             href={'/'}
           >
             <Image
-              src='/apple-icon.png'
+              src={APP_ICON}
               width={32}
               height={32}
               className='mr-2'
@@ -131,7 +133,7 @@ export default function HeaderMenu() {
                     <Link className='flex items-center' href={'/'}>
                       <Image
                         className='mr-2'
-                        src='/favicon-32x32.png'
+                        src={APP_ICON}
                         width={32}
                         height={32}
                         alt='App Logo'
@@ -143,31 +145,23 @@ export default function HeaderMenu() {
               </SheetHeader>
               <ScrollArea>
                 <div className='flex flex-col items-start space-y-3'>
-                  {navList.map((navItem, navIdx) => {
-                    return (
-                      <>
-                        {navItem.subMenu ? (
-                          navItem.subMenu.map((subItem, sIdx) => {
-                            return (
-                              <SheetClose key={navIdx} asChild>
-                                <Link
-                                  key={sIdx}
-                                  className='w-full'
-                                  href={subItem.href}
-                                >
-                                  {subItem.title}
-                                </Link>
-                              </SheetClose>
-                            )
-                          })
-                        ) : (
-                          <SheetClose key={navIdx} asChild>
-                            <Link className='w-full' href={navItem.href}>
-                              {navItem.title}
+                  {navList.map((navItem) => {
+                    return navItem.subMenu ? (
+                      navItem.subMenu.map((subItem) => {
+                        return (
+                          <SheetClose key={subItem.href} asChild>
+                            <Link className='w-full' href={subItem.href}>
+                              {subItem.title}
                             </Link>
                           </SheetClose>
-                        )}
-                      </>
+                        )
+                      })
+                    ) : (
+                      <SheetClose key={navItem.href} asChild>
+                        <Link className='w-full' href={navItem.href}>
+                          {navItem.title}
+                        </Link>
+                      </SheetClose>
                     )
                   })}
                 </div>

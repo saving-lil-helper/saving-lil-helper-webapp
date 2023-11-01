@@ -79,6 +79,16 @@ export function DemandDepositScResultTables() {
           </span>
         </div>
         <div className='text- text-lg font-semibold text-sky-700'>
+          <span>年利率: </span>
+          <span>
+            ~{' '}
+            {bigNumber(demandDepositScResults.avgInterestRate || 0).toFormat(
+              1
+            ) || 0}
+            %
+          </span>
+        </div>
+        <div className='text- text-lg font-semibold text-sky-700'>
           <span>總日數: </span>
           <span>{demandDepositScResults.totalDays}</span>
         </div>

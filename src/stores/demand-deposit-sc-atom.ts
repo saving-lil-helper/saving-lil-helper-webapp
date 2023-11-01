@@ -8,7 +8,10 @@ import {
 } from 'date-fns'
 import { atom, useAtom } from 'jotai'
 import scRateData from '@/app/data/sc-rate.json'
-import { calculateMsaInterestByDays } from '@/lib/saving-calculation'
+import {
+  calculateAvgInterestRate,
+  calculateMsaInterestByDays,
+} from '@/lib/saving-calculation'
 import bigNumber from 'bignumber.js'
 import { Matcher } from 'react-day-picker'
 import { dateDefineToDate } from '@/lib/utils'
@@ -53,6 +56,7 @@ type DemandDepositResultType = {
   totalDays: number
   totalAccPrincipal: number
   termEndDate: Date
+  avgInterestRate: number
 }
 
 export const demandDepositScFormAtom = atom({
@@ -79,6 +83,8 @@ export const demandDepositScResultsAtom = atom<
   const termEndDate = dateDefineToDate(
     scRateListRecord?.phases?.slice(-1)[0].end_date as DateDefine
   )
+
+  let avgInterestRate = 0
 
   scRateListRecord = {
     ...scRateListRecord,
@@ -134,6 +140,12 @@ export const demandDepositScResultsAtom = atom<
         }
       })
 
+      avgInterestRate = calculateAvgInterestRate(
+        principal,
+        totalAccInterest,
+        totalDays
+      )
+
       return {
         ...phase,
         start_date: {
@@ -156,6 +168,7 @@ export const demandDepositScResultsAtom = atom<
     totalDays,
     totalAccPrincipal,
     termEndDate,
+    avgInterestRate,
   }
 })
 
