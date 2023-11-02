@@ -6,6 +6,7 @@ import { Noto_Sans } from 'next/font/google'
 import Script from 'next/script'
 import Footer from '@/components/layouts/footer'
 import NextProgressBarProvider from '@/components/layouts/next-progress-bar-provider'
+import MetaHead from '@/components/meta-head'
 
 const fontSetting = Noto_Sans({
   weight: ['400', '500', '600', '700'],
@@ -35,6 +36,7 @@ export const metadata: Metadata = {
     default: APP_DEFAULT_TITLE,
     template: APP_TITLE_TEMPLATE,
   },
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL as string),
   description: APP_DESCRIPTION,
   icons: [
     {
@@ -56,8 +58,13 @@ export const metadata: Metadata = {
       url: '/favicons/favicon-96x96.png',
     },
     {
+      rel: 'shortcut icon',
+      type: 'image/png',
+      url: '/favicons/apple-touch-icon.png',
+    },
+    {
       rel: 'apple-touch-icon',
-      sizes: '180x180',
+      type: 'image/png',
       url: '/favicons/apple-touch-icon.png',
     },
   ],
@@ -118,6 +125,7 @@ export default function RootLayout({
       className={fontSetting.className}
       suppressHydrationWarning={true}
     >
+      <MetaHead />
       <body
         className={
           'flex min-h-screen flex-col overflow-x-hidden bg-background antialiased'
