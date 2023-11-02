@@ -10,13 +10,31 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { cn } from '@/lib/utils'
 
 const descendingHistory = scRateData.data.slice().reverse()
-export default function ScRateHistory() {
+
+interface ScRateHistoryProps {
+  variant?: 'default' | 'simple'
+}
+
+const ScRateHistory: React.FC<ScRateHistoryProps> = (props) => {
   return (
-    <div className='h-78 mt-6 flex w-full flex-col overflow-hidden rounded-md border p-7'>
-      <h2 className='text-3xl font-bold'>歷史優惠期</h2>
-      <div className='mt-5 h-auto flex-1 overflow-scroll'>
+    <div
+      className={cn(
+        'h-78 mt-6 flex w-full flex-col overflow-hidden rounded-md border p-7',
+        props.variant === 'simple' && 'mt-0 border-none p-0'
+      )}
+    >
+      {props.variant !== 'simple' && (
+        <h2 className='text-3xl font-bold'>歷史優惠期</h2>
+      )}
+      <div
+        className={cn(
+          'mt-5 h-auto flex-1 overflow-scroll',
+          props.variant === 'simple' && 'mt-1'
+        )}
+      >
         <Accordion type='single' collapsible className={'h-full w-full'}>
           {descendingHistory.map((item, index) => (
             <AccordionItem key={index} value={`term-${index}`}>
@@ -60,3 +78,5 @@ export default function ScRateHistory() {
     </div>
   )
 }
+
+export default ScRateHistory

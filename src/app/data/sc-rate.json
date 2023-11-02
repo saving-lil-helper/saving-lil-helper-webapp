@@ -2,6 +2,53 @@
   "data": [
     {
       "promotion_date": {
+        "month": 7,
+        "year": 2023
+      },
+      "phases": [
+        {
+          "start_date": {
+            "day": 3,
+            "month": 7,
+            "year": 2023
+          },
+          "end_date": {
+            "day": 31,
+            "month": 8,
+            "year": 2023
+          },
+          "rate": 3
+        },
+        {
+          "start_date": {
+            "day": 1,
+            "month": 9,
+            "year": 2023
+          },
+          "end_date": {
+            "day": 2,
+            "month": 10,
+            "year": 2023
+          },
+          "rate": 4.5
+        },
+        {
+          "start_date": {
+            "day": 3,
+            "month": 10,
+            "year": 2023
+          },
+          "end_date": {
+            "day": 31,
+            "month": 0,
+            "year": 2023
+          },
+          "rate": 5
+        }
+      ]
+    },
+    {
+      "promotion_date": {
         "month": 8,
         "year": 2023
       },

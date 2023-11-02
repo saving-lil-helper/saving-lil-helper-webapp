@@ -12,9 +12,11 @@ export default function ScPage() {
       id={'demand-deposit-sc'}
       className='flex h-full w-full flex-col items-center py-10 lg:flex-row lg:items-start'
     >
-      <div className={'w-full lg:w-1/3'}>
+      <div className={'w-full  lg:w-1/3'}>
         <DemandDepositFormSc />
-        <ScRateHistory />
+        <div className='hidden lg:block'>
+          <ScRateHistory />
+        </div>
       </div>
       <div className={'w-full lg:w-2/3 lg:pl-16'}>
         <DemandDepositScResultTables />
