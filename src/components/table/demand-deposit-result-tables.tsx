@@ -62,13 +62,13 @@ export function DemandDepositScResultTables() {
   return (
     <div className='mt-5 w-full space-y-6 lg:mx-auto lg:mt-0'>
       <div className='flex-col rounded-lg border p-2'>
-        <div className='text- text-lg font-semibold'>
+        <div className='text-lg font-semibold'>
           <span className='text-muted-foreground'>總利息(元): </span>
           <span>
             {bigNumber(demandDepositScResults.totalAccInterest).toFormat(3)}
           </span>
         </div>
-        <div className='text- text-lg font-semibold'>
+        <div className='text-lg font-semibold'>
           <span className='text-muted-foreground'> 總本息綜和(元): </span>
           <span>
             {bigNumber(demandDepositScResults.totalAccPrincipal || 0).toFormat(
@@ -76,7 +76,7 @@ export function DemandDepositScResultTables() {
             ) || 0}
           </span>
         </div>
-        <div className='text- text-lg font-semibold'>
+        <div className='text-lg font-semibold'>
           <span className='text-muted-foreground'>實際年利率: </span>
           <span>
             {bigNumber(demandDepositScResults.actualInterestRate || 0).toFormat(
@@ -85,11 +85,11 @@ export function DemandDepositScResultTables() {
             %
           </span>
         </div>
-        <div className='text- text-lg font-semibold'>
+        <div className='text-lg font-semibold'>
           <span className='text-muted-foreground'>總日數: </span>
           <span>{demandDepositScResults.totalDays}</span>
         </div>
-        <div className='text- text-lg font-semibold'>
+        <div className='text-lg font-semibold'>
           <span className='text-muted-foreground'>完結日期: </span>
           <span>
             {format(demandDepositScResults.termEndDate, 'yyyy-MM-dd')}

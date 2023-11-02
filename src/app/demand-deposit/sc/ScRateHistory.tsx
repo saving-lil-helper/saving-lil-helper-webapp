@@ -65,7 +65,7 @@ const ScRateHistory: React.FC<ScRateHistoryProps> = (props) => {
               <AccordionContent
                 asChild
                 className={
-                  'text-md flex w-full items-center justify-between font-medium text-muted-foreground'
+                  'text-md flex w-full items-center justify-between font-light'
                 }
               >
                 <span>
