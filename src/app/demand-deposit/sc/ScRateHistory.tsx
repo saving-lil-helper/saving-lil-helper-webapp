@@ -11,6 +11,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 const descendingHistory = scRateData.data.slice().reverse()
 
@@ -60,17 +62,28 @@ const ScRateHistory: React.FC<ScRateHistoryProps> = (props) => {
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className={'text-lg'}>
-                {`${format(
-                  dateDefineToDate(item.phases[0].start_date),
-                  'yyyy-MM-dd'
-                )} ~
+              <AccordionContent
+                asChild
+                className={
+                  'text-md flex w-full items-center justify-between font-medium text-muted-foreground'
+                }
+              >
+                <span>
+                  {`${format(
+                    dateDefineToDate(item.phases[0].start_date),
+                    'yyyy-MM-dd'
+                  )} ~
                     ${format(
                       dateDefineToDate(item.phases.slice(-1)[0].end_date),
                       'yyyy-MM-dd'
                     )}`}
+                </span>
+                <Button variant={'link'}>
+                  <Link href={item.source} target='_blank'>
+                    源文件(PDF)
+                  </Link>
+                </Button>
               </AccordionContent>
-              {/*<Separator className='my-2' />*/}
             </AccordionItem>
           ))}
         </Accordion>

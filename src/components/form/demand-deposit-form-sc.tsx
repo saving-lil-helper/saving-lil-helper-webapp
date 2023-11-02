@@ -68,7 +68,7 @@ export default function DemandDepositFormSc() {
             高息馬拉松活期存款
             <DialogTrigger asChild>
               <Button
-                className='absolute top-[-2px]'
+                className='absolute top-[-2px] lg:hidden'
                 size={'icon'}
                 variant='ghost'
               >
@@ -124,7 +124,7 @@ export default function DemandDepositFormSc() {
           </div>
         </form>
       </Form>
-      <DialogContent className=' max-w-[90%] !rounded-lg'>
+      <DialogContent className='w-[90%] max-w-[450px] !rounded-lg'>
         <DialogHeader>
           <DialogTitle>歷史優惠期</DialogTitle>
         </DialogHeader>
