@@ -40,22 +40,26 @@ export const metadata: Metadata = {
     {
       rel: 'icon',
       type: 'image/png',
+      sizes: '16x16',
+      url: '/favicons/favicon-16x16.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
       sizes: '32x32',
       url: '/favicons/favicon-32x32.png',
     },
     {
       rel: 'icon',
       type: 'image/png',
-      sizes: '16x16',
-      url: '/favicons/favicon-16x16.png',
+      sizes: '96x96',
+      url: '/favicons/favicon-96x96.png',
     },
     {
       rel: 'apple-touch-icon',
       sizes: '180x180',
       url: '/favicons/apple-touch-icon.png',
     },
-    { rel: 'apple-touch-icon', url: '/favicons/apple-touch-icon.png' },
-    { rel: 'shortcut icon', url: '/favicon.ico' },
   ],
   applicationName: APP_NAME,
   appleWebApp: {
@@ -64,7 +68,21 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
   },
   manifest: '/manifest.json',
-  keywords: ['定期存款計數機', '活期存款', '渣打馬拉松', '渣打高息馬拉松'],
+  keywords: [
+    '草錢',
+    'coucin',
+    'cou5cin4',
+    '儲蓄',
+    '定期存款',
+    '活期存款',
+    '定期存款計數機',
+    '渣打馬拉松活期存款',
+    '渣打高息馬拉松活期存款',
+    'saving',
+    'save money',
+    'chill life',
+    'win win',
+  ],
   formatDetection: {
     telephone: false,
   },
@@ -78,7 +96,7 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     title: {
       default: APP_DEFAULT_TITLE,
       template: APP_TITLE_TEMPLATE,

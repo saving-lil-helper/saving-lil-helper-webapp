@@ -55,7 +55,7 @@ const navList = [
   },
 ]
 
-const APP_ICON = '/apple-icon.png'
+const APP_ICON = '/favicons/apple-touch-icon.png'
 
 export default function HeaderMenu() {
   const [open, setOpen] = React.useState(false)
