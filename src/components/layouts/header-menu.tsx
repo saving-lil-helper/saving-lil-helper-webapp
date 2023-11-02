@@ -83,7 +83,7 @@ export default function HeaderMenu() {
             {process.env.NEXT_PUBLIC_APP_NAME}
           </Link>
         </div>
-        <NavigationMenu className={'hidden md:flex '}>
+        <NavigationMenu className={'hidden lg:flex '}>
           <NavigationMenuList>
             {navList.map((navItem, navIdx) => {
               return (
@@ -94,7 +94,7 @@ export default function HeaderMenu() {
                         {navItem.title}
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
+                        <ul className='hidden w-[550px] gap-3 p-4 lg:grid lg:grid-cols-2'>
                           {navItem.subMenu.map((component, cIdx) => (
                             <ListItem
                               key={cIdx}
@@ -148,7 +148,7 @@ export default function HeaderMenu() {
           </DropdownMenu>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button className='md:hidden' variant='ghost' size='icon'>
+              <Button className='lg:hidden' variant='ghost' size='icon'>
                 <Menu />
               </Button>
             </SheetTrigger>
