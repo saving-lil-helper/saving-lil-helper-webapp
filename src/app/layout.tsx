@@ -6,7 +6,7 @@ import { Noto_Sans } from 'next/font/google'
 import Script from 'next/script'
 import Footer from '@/components/layouts/footer'
 import NextProgressBarProvider from '@/components/layouts/next-progress-bar-provider'
-import MetaHead from '@/components/meta-head'
+import startupImages from '@/constant/startupImages.json'
 
 const fontSetting = Noto_Sans({
   weight: ['400', '500', '600', '700'],
@@ -72,7 +72,8 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: APP_DEFAULT_TITLE,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
+    startupImage: startupImages,
   },
   manifest: '/manifest.json',
   keywords: [
@@ -125,7 +126,6 @@ export default function RootLayout({
       className={fontSetting.className}
       suppressHydrationWarning={true}
     >
-      <MetaHead />
       <body
         className={
           'flex min-h-screen flex-col overflow-x-hidden bg-background antialiased'
