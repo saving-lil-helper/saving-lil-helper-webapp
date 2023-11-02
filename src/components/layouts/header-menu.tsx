@@ -55,7 +55,7 @@ const navList = [
   },
 ]
 
-const APP_ICON = '/favicons/apple-touch-icon.png'
+const APP_ICON = '/favicons/android-chrome-512x512.png'
 
 export default function HeaderMenu() {
   const [open, setOpen] = React.useState(false)
