@@ -1,8 +1,6 @@
 'use client'
 
 import { useTimeDepositForm } from '@/stores/time-deposit-atom'
-
-import { useEffect } from 'react'
 import { DataTable } from '@/components/ui/data-table'
 import { cellFormatter } from '@/lib/utils'
 import { ColumnDef } from '@tanstack/react-table'

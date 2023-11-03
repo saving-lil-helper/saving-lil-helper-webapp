@@ -38,7 +38,8 @@ export const options = {
   },
 }
 
-const labels = ['一個月', '三個月', '六個月', '一年']
+const labels = ['一個月', '三個月', '六個月', '九個月', '一年']
+
 export default function TimeDepositResultCharts() {
   const { timeDepositResults } = useTimeDepositForm()
 

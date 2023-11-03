@@ -16,6 +16,10 @@ const terms = [
     month: 6,
   },
   {
+    name: '9個月',
+    month: 9,
+  },
+  {
     name: '1年',
     month: 12,
   },
