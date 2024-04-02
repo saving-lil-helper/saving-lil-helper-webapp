@@ -431,6 +431,54 @@
         }
       ],
       "source": "https://av.sc.com/hk/zh/content/docs/hk-msa-tnc-zh-mar2024.pdf"
+    },
+    {
+      "promotion_date": {
+        "month": 4,
+        "year": 2024
+      },
+      "phases": [
+        {
+          "start_date": {
+            "day": 2,
+            "month": 4,
+            "year": 2024
+          },
+          "end_date": {
+            "day": 2,
+            "month": 6,
+            "year": 2024
+          },
+          "rate": 3.3
+        },
+        {
+          "start_date": {
+            "day": 3,
+            "month": 6,
+            "year": 2024
+          },
+          "end_date": {
+            "day": 7,
+            "month": 1,
+            "year": 2024
+          },
+          "rate": 4
+        },
+        {
+          "start_date": {
+            "day": 2,
+            "month": 7,
+            "year": 2024
+          },
+          "end_date": {
+            "day": 31,
+            "month": 7,
+            "year": 2024
+          },
+          "rate": 5
+        }
+      ],
+      "source": "https://av.sc.com/hk/zh/content/docs/hk-msa-tnc-zh-apr2024.pdf"
     }
   ]
 }
