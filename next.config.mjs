@@ -11,4 +11,7 @@ export default withPWA({
     NEXT_PUBLIC_APP_NAME: '儲蓄小幫手',
     NEXT_PUBLIC_APP_URL: 'https://saving-lil-helper-webapp.vercel.app',
   },
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 })
