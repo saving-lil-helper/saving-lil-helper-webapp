@@ -31,5 +31,6 @@ type DateDefine = {
 }
 
 export const dateDefineToDate = (dateDefine: DateDefine) => {
+  if (!dateDefine) return new Date()
   return new Date(dateDefine.year, dateDefine.month - 1, dateDefine.day)
 }

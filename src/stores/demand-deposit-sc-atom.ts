@@ -7,7 +7,7 @@ import {
   isLeapYear,
 } from 'date-fns'
 import { atom, useAtom } from 'jotai'
-import scRateData from '@/app/data/sc-rate.json'
+import { type PromotionRateItem } from '@/api/index.d'
 import {
   calcMsaActualInterestRate,
   calculateMsaInterestByDays,
@@ -15,6 +15,7 @@ import {
 import bigNumber from 'bignumber.js'
 import { Matcher } from 'react-day-picker'
 import { dateDefineToDate } from '@/lib/utils'
+import { getAllPromotionRates } from '@/api'
 
 export type GetScRateListParams = {
   principal: string
@@ -59,6 +60,15 @@ type DemandDepositResultType = {
   actualInterestRate: number
 }
 
+export const scRateDataAtom = atom<PromotionRateItem[]>([])
+export const fetchScRateDataAtom = atom(null, async (_get, set) => {
+  const result = await getAllPromotionRates()
+
+  if (result.ok && result.data) {
+    set(scRateDataAtom, result.data)
+  }
+})
+
 export const demandDepositScFormAtom = atom({
   principal: '',
   start_date: new Date(),
@@ -71,7 +81,9 @@ export const demandDepositScResultsAtom = atom<
   const year = get(demandDepositScFormAtom).start_date.getFullYear()
   const month = get(demandDepositScFormAtom).start_date.getMonth() + 1
 
-  let scRateListRecord = scRateData.data.find(
+  const scRateData = get(scRateDataAtom) || []
+
+  let scRateListRecord = scRateData.find(
     (item) =>
       item.promotion_date.year === year && item.promotion_date.month === month
   ) as Promotion
@@ -182,33 +194,53 @@ export const useDemandDepositScForm = () => {
 
   const [demandDepositScResults] = useAtom(demandDepositScResultsAtom)
 
+  const [scRateData] = useAtom(scRateDataAtom) || []
+
   const availableDates: {
     fromDate: DateDefine
     toDate: DateDefine
     isMatchDays: Matcher
-  } = {
-    fromDate: scRateData.data[0].phases[0].start_date,
-    toDate: scRateData.data.slice(-1)[0].phases[0].start_date,
-    isMatchDays: (date) => {
-      const isBeforeStartDate = isBefore(
-        date,
-        new Date(
-          availableDates.fromDate.year,
-          availableDates.fromDate.month - 1,
-          availableDates.fromDate.day
-        )
-      )
+  } =
+    scRateData.length > 0
+      ? {
+          fromDate: scRateData[0].phases[0].start_date,
+          toDate: scRateData.slice(-1)[0].phases[0].start_date,
+          isMatchDays: (date) => {
+            const isBeforeStartDate = isBefore(
+              date,
+              new Date(
+                availableDates.fromDate.year,
+                availableDates.fromDate.month - 1,
+                availableDates.fromDate.day
+              )
+            )
 
-      if (isBeforeStartDate) return true
+            if (isBeforeStartDate) return true
 
-      return isAfter(
-        date,
-        endOfMonth(
-          new Date(availableDates.toDate.year, availableDates.toDate.month - 1)
-        )
-      )
-    },
-  }
+            return isAfter(
+              date,
+              endOfMonth(
+                new Date(
+                  availableDates.toDate.year,
+                  availableDates.toDate.month - 1
+                )
+              )
+            )
+          },
+        }
+      : {
+          fromDate: {
+            day: 1,
+            month: 1,
+            year: 2021,
+          },
+          toDate: {
+            day: 1,
+            month: 1,
+            year: 2021,
+          },
+          isMatchDays: (date) => false,
+        }
 
   return {
     demandDepositScForm,

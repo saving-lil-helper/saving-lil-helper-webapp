@@ -14,18 +14,21 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { DatePicker } from '@/components/ui/date-picker'
-import { useDemandDepositScForm } from '@/stores/demand-deposit-sc-atom'
+import {
+  fetchScRateDataAtom,
+  useDemandDepositScForm,
+} from '@/stores/demand-deposit-sc-atom'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import ScRateHistory from '@/app/demand-deposit/sc/ScRateHistory'
 import { Info } from 'lucide-react'
+import { useAtom } from 'jotai'
+import { useEffect } from 'react'
 
 const demandDepositScFormSchema = z.object({
   principal: z.string().min(5, { message: '本金必須大於10000' }), // 本金
@@ -45,6 +48,8 @@ export default function DemandDepositFormSc() {
     defaultValues: defaultFormValues,
   })
 
+  const [, fetchScRateData] = useAtom(fetchScRateDataAtom)
+
   const { setDemandDepositScForm, availableDates } = useDemandDepositScForm()
 
   function onSubmit(data: DemandDepositScFormType) {
@@ -56,6 +61,10 @@ export default function DemandDepositFormSc() {
     form.reset(defaultFormValues)
     setDemandDepositScForm(defaultFormValues)
   }
+
+  useEffect(() => {
+    fetchScRateData()
+  }, [fetchScRateData])
 
   return (
     <Dialog>

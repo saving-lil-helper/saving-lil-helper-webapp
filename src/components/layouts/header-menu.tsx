@@ -46,11 +46,11 @@ const navList = [
         href: '/demand-deposit/sc',
         description: '活期存款預測表',
       },
-      {
-        title: '信銀國際inMotion大富翁存款',
-        href: '/demand-deposit/inmotion',
-        description: '活期存款預測表',
-      },
+      // {
+      //   title: '信銀國際inMotion大富翁存款',
+      //   href: '/demand-deposit/inmotion',
+      //   description: '活期存款預測表',
+      // },
     ],
   },
 ]
