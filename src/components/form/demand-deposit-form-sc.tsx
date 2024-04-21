@@ -28,7 +28,9 @@ import {
 import ScRateHistory from '@/app/demand-deposit/sc/ScRateHistory'
 import { Info } from 'lucide-react'
 import { useAtom } from 'jotai'
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { getLatestPromotionDate } from '@/api'
+import { isBeforeByMonthYear } from '@/lib/utils'
 
 const demandDepositScFormSchema = z.object({
   principal: z.string().min(5, { message: '本金必須大於10000' }), // 本金
@@ -42,7 +44,9 @@ const defaultFormValues = {
 
 type DemandDepositScFormType = z.infer<typeof demandDepositScFormSchema>
 
-export default function DemandDepositFormSc() {
+interface IProps {}
+
+export default function DemandDepositFormSc(props: IProps) {
   const form = useForm<DemandDepositScFormType>({
     resolver: zodResolver(demandDepositScFormSchema),
     defaultValues: defaultFormValues,
@@ -50,7 +54,14 @@ export default function DemandDepositFormSc() {
 
   const [, fetchScRateData] = useAtom(fetchScRateDataAtom)
 
-  const { setDemandDepositScForm, availableDates } = useDemandDepositScForm()
+  const [refetchScRateData, setRefetchScRateData] = useState(false)
+
+  const {
+    setDemandDepositScForm,
+    availableDates,
+    setLatestPromotionDate,
+    latestPromotionDate,
+  } = useDemandDepositScForm()
 
   function onSubmit(data: DemandDepositScFormType) {
     // setTimeDepositForm(form.getValues())
@@ -62,9 +73,33 @@ export default function DemandDepositFormSc() {
     setDemandDepositScForm(defaultFormValues)
   }
 
+  const fetchLatestPromotionDate = useCallback(async () => {
+    const { data } = await getLatestPromotionDate()
+
+    if (!data?.promotion_date) return
+    setLatestPromotionDate(data.promotion_date)
+    setRefetchScRateData(true)
+  }, [setLatestPromotionDate])
+
   useEffect(() => {
-    fetchScRateData()
-  }, [fetchScRateData])
+    const isBefore =
+      latestPromotionDate &&
+      isBeforeByMonthYear(latestPromotionDate, {
+        month: new Date().getMonth() + 1,
+        year: new Date().getFullYear(),
+      })
+
+    if (!localStorage.getItem('latest-promotion-date') || isBefore) {
+      fetchLatestPromotionDate()
+    }
+  }, [fetchLatestPromotionDate, latestPromotionDate])
+
+  useEffect(() => {
+    if (!localStorage.getItem('sc-rate-data') || refetchScRateData) {
+      fetchScRateData()
+      setRefetchScRateData(false)
+    }
+  }, [fetchScRateData, refetchScRateData])
 
   return (
     <Dialog>

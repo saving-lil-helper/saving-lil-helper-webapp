@@ -34,3 +34,24 @@ export const dateDefineToDate = (dateDefine: DateDefine) => {
   if (!dateDefine) return new Date()
   return new Date(dateDefine.year, dateDefine.month - 1, dateDefine.day)
 }
+
+export type MonthYear = {
+  month: number
+  year: number
+}
+
+export const isBeforeByMonthYear = (
+  monthYear: MonthYear,
+  toCompare: MonthYear
+): boolean => {
+  if (monthYear.year < toCompare.year) {
+    return true
+  } else if (
+    monthYear.year === toCompare.year &&
+    monthYear.month < toCompare.month
+  ) {
+    return true
+  } else {
+    return false
+  }
+}

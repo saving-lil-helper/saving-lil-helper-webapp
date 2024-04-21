@@ -14,8 +14,9 @@ import {
 } from '@/lib/saving-calculation'
 import bigNumber from 'bignumber.js'
 import { Matcher } from 'react-day-picker'
-import { dateDefineToDate } from '@/lib/utils'
+import { MonthYear, dateDefineToDate } from '@/lib/utils'
 import { getAllPromotionRates } from '@/api'
+import { atomWithStorage } from 'jotai/utils'
 
 export type GetScRateListParams = {
   principal: string
@@ -60,7 +61,16 @@ type DemandDepositResultType = {
   actualInterestRate: number
 }
 
-export const scRateDataAtom = atom<PromotionRateItem[]>([])
+export const scRateDataAtom = atomWithStorage<PromotionRateItem[]>(
+  'sc-rate-data',
+  []
+)
+
+export const latestPromotionDateAtom = atomWithStorage<MonthYear | null>(
+  'latest-promotion-date',
+  null
+)
+
 export const fetchScRateDataAtom = atom(null, async (_get, set) => {
   const result = await getAllPromotionRates()
 
@@ -196,6 +206,10 @@ export const useDemandDepositScForm = () => {
 
   const [scRateData] = useAtom(scRateDataAtom) || []
 
+  const [latestPromotionDate, setLatestPromotionDate] = useAtom(
+    latestPromotionDateAtom
+  )
+
   const availableDates: {
     fromDate: DateDefine
     toDate: DateDefine
@@ -247,5 +261,8 @@ export const useDemandDepositScForm = () => {
     setDemandDepositScForm,
     demandDepositScResults,
     availableDates,
+    scRateData,
+    latestPromotionDate,
+    setLatestPromotionDate,
   }
 }

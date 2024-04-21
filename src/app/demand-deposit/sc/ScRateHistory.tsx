@@ -49,15 +49,12 @@ const ScRateHistory: React.FC<ScRateHistoryProps> = (props) => {
               <Skeleton className='my-2 h-10 w-full'></Skeleton>
             </>
           ) : (
-            scRateData.reverse().map((item, index) => (
+            scRateData.toReversed().map((item, index) => (
               <AccordionItem key={index} value={`term-${index}`}>
                 <AccordionTrigger>
                   <div className='flex w-full justify-between'>
                     <span className='text-md'>
-                      {`${format(
-                        dateDefineToDate(item.phases[0].start_date),
-                        'yyyy-MM'
-                      )}`}
+                      {`${item.promotion_date.year}-${item.promotion_date.month}`}
                     </span>
                     <div className='flex items-center space-x-4 text-sm'>
                       {item.phases.map((phase, pIndex) => (

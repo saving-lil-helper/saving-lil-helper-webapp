@@ -19,3 +19,20 @@ export type PromotionRateItem = {
   currency_name: 'HKD' | 'USD'
   source: string
 }
+
+export type GetLatestPromotionDateResponse = {
+  data: {
+    promotion_date: {
+      month: number
+      year: number
+    }
+  } | null
+  ok: boolean
+  error: unknown
+}
+
+export type GetAllPromotionRatesResponse = {
+  data: PromotionRateItem[] | null
+  ok: boolean
+  error: unknown
+}
