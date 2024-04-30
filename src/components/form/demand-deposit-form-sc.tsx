@@ -56,6 +56,8 @@ export default function DemandDepositFormSc(props: IProps) {
 
   const [refetchScRateData, setRefetchScRateData] = useState(false)
 
+  const [retryTime, setRetryTime] = useState(0)
+
   const {
     setDemandDepositScForm,
     availableDates,
@@ -79,6 +81,7 @@ export default function DemandDepositFormSc(props: IProps) {
     if (!data?.promotion_date) return
     setLatestPromotionDate(data.promotion_date)
     setRefetchScRateData(true)
+    setRetryTime((prev) => prev + 1)
   }, [setLatestPromotionDate])
 
   useEffect(() => {
@@ -90,16 +93,16 @@ export default function DemandDepositFormSc(props: IProps) {
       })
 
     if (!localStorage.getItem('latest-promotion-date') || isBefore) {
-      fetchLatestPromotionDate()
+      retryTime <= 3 && fetchLatestPromotionDate()
     }
-  }, [fetchLatestPromotionDate, latestPromotionDate])
+  }, [fetchLatestPromotionDate, latestPromotionDate, retryTime])
 
   useEffect(() => {
     if (!localStorage.getItem('sc-rate-data') || refetchScRateData) {
-      fetchScRateData()
+      retryTime <= 3 && fetchScRateData()
       setRefetchScRateData(false)
     }
-  }, [fetchScRateData, refetchScRateData])
+  }, [fetchScRateData, refetchScRateData, retryTime])
 
   return (
     <Dialog>
