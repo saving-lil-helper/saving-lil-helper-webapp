@@ -210,6 +210,9 @@ export const useDemandDepositScForm = () => {
     latestPromotionDateAtom
   )
 
+  const phaseStartDate = scRateData?.[0]?.phases?.[0].start_date
+  const phaseEndDate = scRateData.slice(-1)?.[0]?.phases?.[0]?.start_date
+
   const availableDates: {
     fromDate: DateDefine
     toDate: DateDefine
@@ -217,15 +220,29 @@ export const useDemandDepositScForm = () => {
   } =
     scRateData.length > 0
       ? {
-          fromDate: scRateData[0].phases[0].start_date,
-          toDate: scRateData.slice(-1)[0].phases[0].start_date,
+          fromDate: phaseStartDate,
+          toDate: phaseEndDate,
           isMatchDays: (date) => {
+            if (
+              latestPromotionDate &&
+              isBefore(
+                endOfMonth(
+                  new Date(
+                    latestPromotionDate.year,
+                    latestPromotionDate.month - 1
+                  )
+                ),
+                date
+              )
+            )
+              return true
+
             const isBeforeStartDate = isBefore(
               date,
               new Date(
-                availableDates.fromDate.year,
-                availableDates.fromDate.month - 1,
-                availableDates.fromDate.day
+                phaseStartDate.year,
+                phaseStartDate.month - 1,
+                phaseStartDate.day
               )
             )
 
@@ -233,12 +250,7 @@ export const useDemandDepositScForm = () => {
 
             return isAfter(
               date,
-              endOfMonth(
-                new Date(
-                  availableDates.toDate.year,
-                  availableDates.toDate.month - 1
-                )
-              )
+              endOfMonth(new Date(phaseEndDate.year, phaseEndDate.month - 1))
             )
           },
         }

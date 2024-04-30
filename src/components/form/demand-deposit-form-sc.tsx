@@ -31,6 +31,7 @@ import { useAtom } from 'jotai'
 import { useCallback, useEffect, useState } from 'react'
 import { getLatestPromotionDate } from '@/api'
 import { isBeforeByMonthYear } from '@/lib/utils'
+import { endOfMonth, isAfter, isBefore } from 'date-fns'
 
 const demandDepositScFormSchema = z.object({
   principal: z.string().min(5, { message: '本金必須大於10000' }), // 本金
@@ -43,6 +44,8 @@ const defaultFormValues = {
 }
 
 type DemandDepositScFormType = z.infer<typeof demandDepositScFormSchema>
+
+const RETRY_LIMIT = 1
 
 interface IProps {}
 
@@ -93,16 +96,27 @@ export default function DemandDepositFormSc(props: IProps) {
       })
 
     if (!localStorage.getItem('latest-promotion-date') || isBefore) {
-      retryTime <= 3 && fetchLatestPromotionDate()
+      retryTime <= RETRY_LIMIT && fetchLatestPromotionDate()
     }
   }, [fetchLatestPromotionDate, latestPromotionDate, retryTime])
 
   useEffect(() => {
     if (!localStorage.getItem('sc-rate-data') || refetchScRateData) {
-      retryTime <= 3 && fetchScRateData()
+      retryTime <= RETRY_LIMIT && fetchScRateData()
       setRefetchScRateData(false)
     }
   }, [fetchScRateData, refetchScRateData, retryTime])
+
+  useEffect(() => {
+    if (!latestPromotionDate) return
+
+    const endOfLatestPromotionDate = endOfMonth(
+      new Date(latestPromotionDate.year, latestPromotionDate.month - 1)
+    )
+    if (latestPromotionDate && isAfter(new Date(), endOfLatestPromotionDate)) {
+      form.setValue('start_date', endOfLatestPromotionDate)
+    }
+  }, [latestPromotionDate, form])
 
   return (
     <Dialog>
