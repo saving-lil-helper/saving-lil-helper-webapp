@@ -1,11 +1,9 @@
 import {
-  type PromotionRateItem,
   GetLatestPromotionDateResponse,
   GetAllPromotionRatesResponse,
 } from './index.d'
 
-const baseUrl =
-  'https://saving-lil-helper-cf-workers.niskan516-dev.workers.dev/api'
+const baseUrl = 'https://saving-lil-helper.niskan516dev.com/api'
 
 const authToken =
   'WmJX6dA9zTsJJGzKS5grDP2rYsPq35lLFxhbfgfHoX4ptT4p8SF7Lk7EKxqiwisc'

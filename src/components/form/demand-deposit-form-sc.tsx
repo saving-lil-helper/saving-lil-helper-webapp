@@ -29,8 +29,7 @@ import ScRateHistory from '@/app/demand-deposit/sc/ScRateHistory'
 import { Info } from 'lucide-react'
 import { useAtom } from 'jotai'
 import { useCallback, useEffect, useState } from 'react'
-import { getLatestPromotionDate } from '@/api'
-import { isBeforeByMonthYear } from '@/lib/utils'
+import { MonthYear, isBeforeByMonthYear } from '@/lib/utils'
 import { endOfMonth, isAfter, isBefore } from 'date-fns'
 
 const demandDepositScFormSchema = z.object({
@@ -47,7 +46,9 @@ type DemandDepositScFormType = z.infer<typeof demandDepositScFormSchema>
 
 const RETRY_LIMIT = 1
 
-interface IProps {}
+interface IProps {
+  latestPromotionDate: MonthYear
+}
 
 export default function DemandDepositFormSc(props: IProps) {
   const form = useForm<DemandDepositScFormType>({
@@ -61,12 +62,8 @@ export default function DemandDepositFormSc(props: IProps) {
 
   const [retryTime, setRetryTime] = useState(0)
 
-  const {
-    setDemandDepositScForm,
-    availableDates,
-    setLatestPromotionDate,
-    latestPromotionDate,
-  } = useDemandDepositScForm()
+  const { setDemandDepositScForm, availableDates, setLatestPromotionDate } =
+    useDemandDepositScForm()
 
   function onSubmit(data: DemandDepositScFormType) {
     // setTimeDepositForm(form.getValues())
@@ -79,18 +76,16 @@ export default function DemandDepositFormSc(props: IProps) {
   }
 
   const fetchLatestPromotionDate = useCallback(async () => {
-    const { data } = await getLatestPromotionDate()
+    if (!props.latestPromotionDate) return
 
-    if (!data?.promotion_date) return
-    setLatestPromotionDate(data.promotion_date)
+    setLatestPromotionDate(props.latestPromotionDate)
     setRefetchScRateData(true)
-    setRetryTime((prev) => prev + 1)
-  }, [setLatestPromotionDate])
+  }, [props.latestPromotionDate, setLatestPromotionDate])
 
   useEffect(() => {
     const isBefore =
-      latestPromotionDate &&
-      isBeforeByMonthYear(latestPromotionDate, {
+      props.latestPromotionDate &&
+      isBeforeByMonthYear(props.latestPromotionDate, {
         month: new Date().getMonth() + 1,
         year: new Date().getFullYear(),
       })
@@ -98,7 +93,7 @@ export default function DemandDepositFormSc(props: IProps) {
     if (!localStorage.getItem('latest-promotion-date') || isBefore) {
       retryTime <= RETRY_LIMIT && fetchLatestPromotionDate()
     }
-  }, [fetchLatestPromotionDate, latestPromotionDate, retryTime])
+  }, [fetchLatestPromotionDate, props.latestPromotionDate, retryTime])
 
   useEffect(() => {
     if (!localStorage.getItem('sc-rate-data') || refetchScRateData) {
@@ -108,15 +103,21 @@ export default function DemandDepositFormSc(props: IProps) {
   }, [fetchScRateData, refetchScRateData, retryTime])
 
   useEffect(() => {
-    if (!latestPromotionDate) return
+    if (!props.latestPromotionDate) return
 
     const endOfLatestPromotionDate = endOfMonth(
-      new Date(latestPromotionDate.year, latestPromotionDate.month - 1)
+      new Date(
+        props.latestPromotionDate.year,
+        props.latestPromotionDate.month - 1
+      )
     )
-    if (latestPromotionDate && isAfter(new Date(), endOfLatestPromotionDate)) {
+    if (
+      props.latestPromotionDate &&
+      isAfter(new Date(), endOfLatestPromotionDate)
+    ) {
       form.setValue('start_date', endOfLatestPromotionDate)
     }
-  }, [latestPromotionDate, form])
+  }, [props.latestPromotionDate, form])
 
   return (
     <Dialog>
