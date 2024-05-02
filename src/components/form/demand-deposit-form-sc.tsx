@@ -28,9 +28,9 @@ import {
 import ScRateHistory from '@/app/demand-deposit/sc/ScRateHistory'
 import { Info } from 'lucide-react'
 import { useAtom } from 'jotai'
-import { useCallback, useEffect, useState } from 'react'
-import { MonthYear, isBeforeByMonthYear } from '@/lib/utils'
-import { endOfMonth, isAfter, isBefore } from 'date-fns'
+import { useEffect } from 'react'
+import { MonthYear } from '@/lib/utils'
+import { endOfMonth, isAfter } from 'date-fns'
 
 const demandDepositScFormSchema = z.object({
   principal: z.string().min(5, { message: '本金必須大於10000' }), // 本金
@@ -44,10 +44,18 @@ const defaultFormValues = {
 
 type DemandDepositScFormType = z.infer<typeof demandDepositScFormSchema>
 
-const RETRY_LIMIT = 1
-
 interface IProps {
   latestPromotionDate: MonthYear
+}
+
+const isUpdatedPromotionDate = (
+  latestPromotionDate: MonthYear,
+  cachedPromotionDate: MonthYear | null
+) => {
+  if (!cachedPromotionDate) return false
+  if (latestPromotionDate.year > cachedPromotionDate.year) return false
+  if (latestPromotionDate.month > cachedPromotionDate.month) return false
+  return true
 }
 
 export default function DemandDepositFormSc(props: IProps) {
@@ -56,17 +64,12 @@ export default function DemandDepositFormSc(props: IProps) {
     defaultValues: defaultFormValues,
   })
 
-  const [, fetchScRateData] = useAtom(fetchScRateDataAtom)
-
-  const [refetchScRateData, setRefetchScRateData] = useState(false)
-
-  const [retryTime, setRetryTime] = useState(0)
+  const [_scRateData, fetchScRateData] = useAtom(fetchScRateDataAtom)
 
   const { setDemandDepositScForm, availableDates, setLatestPromotionDate } =
     useDemandDepositScForm()
 
   function onSubmit(data: DemandDepositScFormType) {
-    // setTimeDepositForm(form.getValues())
     setDemandDepositScForm(data)
   }
 
@@ -75,32 +78,22 @@ export default function DemandDepositFormSc(props: IProps) {
     setDemandDepositScForm(defaultFormValues)
   }
 
-  const fetchLatestPromotionDate = useCallback(async () => {
+  useEffect(() => {
     if (!props.latestPromotionDate) return
 
-    setLatestPromotionDate(props.latestPromotionDate)
-    setRefetchScRateData(true)
-  }, [props.latestPromotionDate, setLatestPromotionDate])
+    const latestPromotionDate = localStorage.getItem('latest-promotion-date')
 
-  useEffect(() => {
-    const isBefore =
-      props.latestPromotionDate &&
-      isBeforeByMonthYear(props.latestPromotionDate, {
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
-      })
-
-    if (!localStorage.getItem('latest-promotion-date') || isBefore) {
-      retryTime <= RETRY_LIMIT && fetchLatestPromotionDate()
+    if (
+      !latestPromotionDate ||
+      !isUpdatedPromotionDate(
+        props.latestPromotionDate,
+        JSON.parse(latestPromotionDate)
+      )
+    ) {
+      setLatestPromotionDate(props.latestPromotionDate)
+      fetchScRateData()
     }
-  }, [fetchLatestPromotionDate, props.latestPromotionDate, retryTime])
-
-  useEffect(() => {
-    if (!localStorage.getItem('sc-rate-data') || refetchScRateData) {
-      retryTime <= RETRY_LIMIT && fetchScRateData()
-      setRefetchScRateData(false)
-    }
-  }, [fetchScRateData, refetchScRateData, retryTime])
+  }, [props.latestPromotionDate, setLatestPromotionDate, fetchScRateData])
 
   useEffect(() => {
     if (!props.latestPromotionDate) return
