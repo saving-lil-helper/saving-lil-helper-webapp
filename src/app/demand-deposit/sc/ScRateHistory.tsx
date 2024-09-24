@@ -36,7 +36,7 @@ const ScRateHistory: React.FC<ScRateHistoryProps> = (props) => {
       )}
       <div
         className={cn(
-          'mt-5 h-auto flex-1 overflow-scroll',
+          'mt-5 h-auto flex-1 overflow-auto',
           props.variant === 'simple' && 'mt-1'
         )}
       >

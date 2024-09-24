@@ -75,7 +75,10 @@ export const fetchScRateDataAtom = atom(null, async (_get, set) => {
   const result = await getAllPromotionRates()
 
   if (result.ok && result.data) {
-    set(scRateDataAtom, result.data)
+    set(
+      scRateDataAtom,
+      result.data.filter((item) => item.currency_name !== 'USD')
+    )
   }
 })
 
