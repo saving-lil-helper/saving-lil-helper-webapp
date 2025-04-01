@@ -54,8 +54,7 @@ const isUpdatedPromotionDate = (
 ) => {
   if (!cachedPromotionDate) return false
   if (latestPromotionDate.year > cachedPromotionDate.year) return false
-  if (latestPromotionDate.month > cachedPromotionDate.month) return false
-  return true
+  return latestPromotionDate.month <= cachedPromotionDate.month
 }
 
 export default function DemandDepositFormSc(props: IProps) {
@@ -117,7 +116,7 @@ export default function DemandDepositFormSc(props: IProps) {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='w-full space-y-6 rounded-md border p-7 '
+          className='h-[365px] w-full space-y-6  rounded-md border p-7 lg:h-[380px] '
         >
           <h2 className={'relative text-3xl font-bold'}>
             高息馬拉松活期存款

@@ -16,11 +16,11 @@ export default async function ScPage() {
       id={'demand-deposit-sc'}
       className='flex h-full w-full flex-col items-center py-10 lg:flex-row lg:items-start'
     >
-      <div className={'w-full  lg:w-1/3'}>
+      <div className={'flex h-full w-full flex-col lg:w-1/3'}>
         <DemandDepositFormSc
           latestPromotionDate={data?.promotion_date as MonthYear}
         />
-        <div className='hidden lg:block'>
+        <div className='hidden lg:block lg:h-96'>
           <ScRateHistory />
         </div>
       </div>

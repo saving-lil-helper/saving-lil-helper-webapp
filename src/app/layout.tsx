@@ -128,7 +128,7 @@ export default function RootLayout({
     >
       <body
         className={
-          'flex min-h-screen flex-col overflow-x-hidden bg-background antialiased'
+          'flex h-dvh flex-col overflow-x-hidden bg-background antialiased'
         }
         suppressHydrationWarning={true}
       >

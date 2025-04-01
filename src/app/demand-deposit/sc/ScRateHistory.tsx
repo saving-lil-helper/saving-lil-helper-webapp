@@ -15,7 +15,6 @@ import Link from 'next/link'
 import { scRateDataAtom } from '@/stores/demand-deposit-sc-atom'
 import { useAtom } from 'jotai'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useEffect } from 'react'
 
 interface ScRateHistoryProps {
   variant?: 'default' | 'simple'
@@ -27,7 +26,7 @@ const ScRateHistory: React.FC<ScRateHistoryProps> = (props) => {
   return (
     <div
       className={cn(
-        'h-78 mt-6 flex w-full flex-col overflow-hidden rounded-md border p-7',
+        'mt-6 flex h-80 w-full flex-col overflow-hidden rounded-md border p-7 lg:h-full',
         props.variant === 'simple' && 'mt-0 border-none p-0'
       )}
     >
