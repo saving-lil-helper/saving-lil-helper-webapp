@@ -1,12 +1,12 @@
 import '@/styles/globals.css'
-import type { Metadata, Viewport } from 'next'
-import { ThemeProvider } from '@/components/theme-provider'
+import Footer from '@/components/layouts/footer'
 import HeaderMenu from '@/components/layouts/header-menu'
+import NextProgressBarProvider from '@/components/layouts/next-progress-bar-provider'
+import { ThemeProvider } from '@/components/theme-provider'
+import startupImages from '@/constant/startupImages.json'
+import type { Metadata, Viewport } from 'next'
 import { Noto_Sans } from 'next/font/google'
 import Script from 'next/script'
-import Footer from '@/components/layouts/footer'
-import NextProgressBarProvider from '@/components/layouts/next-progress-bar-provider'
-import startupImages from '@/constant/startupImages.json'
 
 const fontSetting = Noto_Sans({
   weight: ['400', '500', '600', '700'],
@@ -84,8 +84,14 @@ export const metadata: Metadata = {
     '定期存款',
     '活期存款',
     '定期存款計數機',
+    '渣打',
+    '渣打銀行',
+    '渣打銀行香港',
+    '渣打銀行活期存款',
     '渣打馬拉松活期存款',
     '渣打高息馬拉松活期存款',
+    '高息',
+    '財富',
     'saving',
     'save money',
     'chill life',
@@ -113,7 +119,7 @@ export const metadata: Metadata = {
   },
 }
 
-const GA_MEASUREMENT_ID = 'G-KHXXWPHYM5'
+const GA_MEASUREMENT_ID = 'G-Y1MX9PYJK6'
 
 export default function RootLayout({
   children,

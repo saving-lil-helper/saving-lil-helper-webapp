@@ -1,8 +1,15 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import ScRateHistory from '@/app/demand-deposit/sc/ScRateHistory'
+import { Button } from '@/components/ui/button'
+import { DatePicker } from '@/components/ui/date-picker'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import {
   Form,
   FormControl,
@@ -12,25 +19,18 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { DatePicker } from '@/components/ui/date-picker'
+import { MonthYear } from '@/lib/utils'
 import {
   fetchScRateDataAtom,
   useDemandDepositScForm,
 } from '@/stores/demand-deposit-sc-atom'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import ScRateHistory from '@/app/demand-deposit/sc/ScRateHistory'
-import { Info } from 'lucide-react'
-import { useAtom } from 'jotai'
-import { useEffect } from 'react'
-import { MonthYear } from '@/lib/utils'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { endOfMonth, isAfter } from 'date-fns'
+import { useAtom } from 'jotai'
+import { Info } from 'lucide-react'
+import { useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 const demandDepositScFormSchema = z.object({
   principal: z.string().min(5, { message: '本金必須大於10000' }), // 本金
@@ -119,7 +119,7 @@ export default function DemandDepositFormSc(props: IProps) {
           className='h-[365px] w-full space-y-6  rounded-md border p-7 lg:h-[380px] '
         >
           <h2 className={'relative text-3xl font-bold'}>
-            高息馬拉松活期存款
+            渣打高息馬拉松活期存款
             <DialogTrigger asChild>
               <Button
                 className='absolute top-[-2px] lg:hidden'

@@ -32,9 +32,9 @@ export default function Home() {
       </Card>
       <Card className='w-full'>
         <CardHeader>
-          <CardTitle>活期存款計數機</CardTitle>
+          <CardTitle>渣打活期存款計數機</CardTitle>
           <CardDescription>
-            活期存款計數機是一個幫助你計算活期存款的利息的工具，你可以在此計算活期存款的利息。
+            渣打活期存款計數機是一個幫助你計算活期存款的利息的工具，你可以在此計算活期存款的利息。
           </CardDescription>
         </CardHeader>
         <CardFooter>
