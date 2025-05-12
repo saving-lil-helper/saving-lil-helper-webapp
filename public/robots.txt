@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://saving.niskan516dev.com
+
+# Sitemaps
+Sitemap: https://saving.niskan516dev.com/sitemap.xml
