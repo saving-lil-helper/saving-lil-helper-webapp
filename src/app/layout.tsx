@@ -132,20 +132,6 @@ export default function RootLayout({
       className={fontSetting.className}
       suppressHydrationWarning={true}
     >
-      <head>
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        />
-        <Script id='google-analytics'>
-          {`
-  window.dataLayer = window.dataLayer || [] 
-  function gtag(){dataLayer.push(arguments)}
-  gtag('js', new Date()) 
-  
-  gtag('config', '${GA_MEASUREMENT_ID}')
-  `}
-        </Script>
-      </head>
       <body
         className={
           'flex h-dvh flex-col overflow-x-hidden bg-background antialiased'
@@ -160,6 +146,18 @@ export default function RootLayout({
           </NextProgressBarProvider>
         </ThemeProvider>
       </body>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+      />
+      <Script id='google-analytics'>
+        {`
+  window.dataLayer = window.dataLayer || [] 
+  function gtag(){dataLayer.push(arguments)}
+  gtag('js', new Date()) 
+  
+  gtag('config', '${GA_MEASUREMENT_ID}')
+  `}
+      </Script>
     </html>
   )
 }
